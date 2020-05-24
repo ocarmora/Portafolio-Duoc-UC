@@ -6,58 +6,61 @@ import * as jwt from "jsonwebtoken";
 
 export class AuthController {
 
-    private secretTokenKey = 'jVVZgzfNc2Ho38JQxb5GsrlKXILuW1DkEJI8dJC7CsiqyQWj2zMIHX387pUgv9oMG95PNdcN4EDG1RsEYCrccmQgIX';
+    private tokenSecretKey = process.env.TOKEN_SECRET_KEY;
     private userRepository = getRepository(Usuario);
 
-    validateToken(request: Request, response: Response, nex: NextFunction): boolean{
-      try {
-        jwt.verify(request.body.token, this.secretTokenKey);
-        return true;
-      } catch {
-        return false;
-      }
+    async validateToken(request: Request, response: Response, nex: NextFunction){
+      jwt.verify(request.body.token, this.tokenSecretKey, (error: any) => {
+        if(error){
+          return response.status(403).send(false);
+        }
+        return response.status(200).send(true);
+      })
     }
 
     async currentUser(request: Request, response: Response, next: NextFunction){
-      try {
-        jwt.verify(request.body.token, this.secretTokenKey, (error: any, payload: any) => {
-          if(error){
-            return response.sendStatus(500).end();
-          }else{
-            this.userRepository.findOne(payload.id, {relations: ["tipoUsuario"]}).then(user =>{
-              if(user){
-                return response.status(200).json(user)
-              }else{
-                return response.sendStatus(500).end();
-              }
-            })
-          }
-        })
-      } catch {
-        return response.sendStatus(500).end();
-      }
+      jwt.verify(request.body.token, this.tokenSecretKey, (error: any, payload: any) => {
+        if(error){
+          return response.sendStatus(500);
+        }else{
+          this.userRepository.findOne(payload.id, {relations: ["tipoUsuario"]}).then(user =>{
+            if(user){
+              return response.status(200).json(user)
+            }else{
+              return response.sendStatus(500);
+            }
+          })
+        }
+      })
     }
 
     async login(request: Request, response: Response, next: NextFunction) {
 
-      let userRut = request.body.rut;
-      let userPassword = request.body.password;
+      let username = request.body.username;
+      let password = request.body.password;
       let token: string;
+      let userFound: any;
 
-      this.userRepository.findOneOrFail({ where: {rut: userRut, activo: 1} })
+      this.userRepository.findOneOrFail({ where: {rut: username, activo: 1}, relations: ["tipoUsuario"]})
         .then(user => {
-          bcrypt.compare(userPassword, user.password)
-          .then(result => {
-            if(result){
-              token = jwt.sign({rut: user.rut,id: user.id}, this.secretTokenKey);
+          userFound = user;
+          bcrypt.compare(password, user.password)
+            .then(result => {
+              if(!result){
+                return response.sendStatus(401);
+              }
+              //this.currentUser = userFound;
+              token = jwt.sign({rut: user.rut,id: user.id}, this.tokenSecretKey);
               return response.status(200).json({
-                token
+                user: userFound,
+                token: token
               });
-            }
-            return response.status(401).end();
-          })
+            })
+            .catch(err => {
+              return response.sendStatus(500);
+            })
         }).catch(err => {
-          return response.status(500).end();
+          return response.sendStatus(500);
         });
     }
 

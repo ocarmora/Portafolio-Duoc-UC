@@ -6,9 +6,6 @@ import {Request, Response} from "express";
 import {Routes} from "./routes";
 import * as cors from "cors";
 import * as morgan from "morgan";
-import { Usuario } from "./entity/Usuario";
-import { TipoUsuario } from "./entity/TipoUsuario";
-import { Venta } from "./entity/Venta";
 import CheckAuth from "./middleware/CheckAuth";
 
 createConnection().then(async connection => {
@@ -16,7 +13,7 @@ createConnection().then(async connection => {
   // create express app
   const app = express();
   app.use(bodyParser.json());
-  app.use(cors()); // cors allows to send request from another server
+  app.use(cors()); // cors allows to receive request from another server
   app.use(morgan('dev')); // check all request and show on console
   app.use(CheckAuth); // check if headers request has Bearer Token and if is valid with json web token
 
@@ -32,9 +29,6 @@ createConnection().then(async connection => {
           }
       });
   });
-
-  // setup express app here
-  // ...
 
   // start express server
   app.listen(3000);
