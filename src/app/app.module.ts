@@ -3,14 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
-import { InputTextModule}  from 'primeng/inputtext';
-import { PanelModule } from 'primeng/panel';
-import { ToastModule } from 'primeng/toast';
-import { MessagesModule } from 'primeng/messages';
-import { MessageModule } from 'primeng/message';
-import {MenubarModule} from 'primeng/menubar';
-
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/shared/login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -37,12 +31,6 @@ import { HomeComponent } from './components/shared/home/home.component';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    InputTextModule,
-    PanelModule,
-    ToastModule,
-    MessageModule,
-    MessagesModule,
-    MenubarModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
