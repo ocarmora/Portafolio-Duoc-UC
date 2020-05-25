@@ -10,7 +10,10 @@ export class OrdenDeCompra {
     @ManyToOne(type => Usuario, Usuario => Usuario.id)
     proveedor: Usuario;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

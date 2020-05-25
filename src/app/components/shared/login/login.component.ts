@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Toast } from 'src/app/util';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [ MessageService ]
 })
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder, private messageService: MessageService, private _authService: AuthService, private _router: Router) { }
+  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router, private _route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loginFormInit();
@@ -28,19 +27,31 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(loginForm: FormGroup): any{
-    if(!loginForm.valid){
+
+    if(!loginForm.valid){ // return if form is invalid
       return;
+    }
+
+    const params = this._route.snapshot.queryParams; // catch value from 'continueTo' URL param
+    let redirectURL: string = ''; // redirect to home URL after login
+
+    if(params['redirectTo']){
+      redirectURL = params['redirectTo']; // redirect to previous URL after login
     }
 
     this._authService.login(loginForm.value).subscribe(
       (result: any) => {
+        //const userRole = result.user.tipoUsuario;
         this._authService.setToken(result.token);
-        this._router.navigate(['']);
+        return this._router.navigate([redirectURL]);
       },
       (error: any) => {
         loginForm.setValue({username: loginForm.value.username, password: ''})
         document.getElementById('password').focus();
-        return this.messageService.add({severity:'error', summary:'¡Ops!', detail:'Inténtalo nuevamente'});
+        Toast.fire({
+          titleText: 'Inténtalo nuevamente',
+          icon: 'error',
+        });
       }
     );
 

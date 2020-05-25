@@ -14,7 +14,10 @@ export class DetalleOrdenDeCompra {
     @ManyToOne(type => OrdenDeCompra  , OrdenDeCompra => OrdenDeCompra.id)
     ordenDeCompra: OrdenDeCompra;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

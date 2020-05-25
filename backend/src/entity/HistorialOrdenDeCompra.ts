@@ -20,7 +20,10 @@ export class HistorialOrdenDeCompra {
     @ManyToOne(type => Usuario  , Usuario => Usuario.id)
     ususario: Usuario;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

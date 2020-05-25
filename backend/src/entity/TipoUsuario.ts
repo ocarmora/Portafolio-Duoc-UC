@@ -9,7 +9,10 @@ export class TipoUsuario {
     @Column()
     tipo: string;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

@@ -9,7 +9,10 @@ export class Region {
     @Column()
     region: string;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

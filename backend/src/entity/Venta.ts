@@ -18,7 +18,10 @@ export class Venta {
     @JoinColumn()
     documento: Documento;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

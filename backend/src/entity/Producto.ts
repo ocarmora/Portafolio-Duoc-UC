@@ -9,22 +9,10 @@ export class Producto {
     id: number;
 
     @Column()
-    sku: number;
-
-    @Column()
-    codigoDeBarra: string;
-
-    @Column()
     descripcion: string;
 
     @Column()
     precioNeto: number;
-
-    @Column()
-    fechaVencimiento: string;
-
-    @Column()
-    stock: number;
 
     @Column()
     stockCritico: number;
@@ -35,7 +23,10 @@ export class Producto {
     @ManyToOne(type => CategoriaProducto, CategoriaProducto => CategoriaProducto.id)
     categoriaProducto: CategoriaProducto;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

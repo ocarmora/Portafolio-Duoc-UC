@@ -49,7 +49,6 @@ export class AuthController {
               if(!result){
                 return response.sendStatus(401);
               }
-              //this.currentUser = userFound;
               token = jwt.sign({rut: user.rut,id: user.id}, this.tokenSecretKey);
               return response.status(200).json({
                 user: userFound,

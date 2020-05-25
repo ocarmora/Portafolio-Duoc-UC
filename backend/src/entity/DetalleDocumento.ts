@@ -23,6 +23,9 @@ export class DetalleDocumento {
     @ManyToOne(type => Documento, Documento => Documento.id)
     documento: Documento;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 }

@@ -9,7 +9,10 @@ export class CategoriaProducto {
     @Column()
     categoria: string;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

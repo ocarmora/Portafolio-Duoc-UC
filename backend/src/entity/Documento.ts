@@ -23,7 +23,10 @@ export class Documento {
     @ManyToOne(type => Usuario, Usuario => Usuario.id)
     cliente: Usuario;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }

@@ -8,25 +8,27 @@ import { PanelModule } from 'primeng/panel';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
-
+import {MenubarModule} from 'primeng/menubar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
-import { BoHomePageComponent } from './pages/backOffice/bo-home-page/bo-home-page.component';
 import { LoginComponent } from './components/shared/login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { Error404PageComponent } from './pages/error404-page/error404-page.component';
-import { Error403PageComponent } from './pages/error403-page/error403-page.component';
+import { Error404Component } from './components/shared/error404/error404.component';
+import { Error403Component } from './components/shared/error403/error403.component';
+import { BoHomeComponent } from './components/back-office/bo-home/bo-home.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { HomeComponent } from './components/shared/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent,
-    BoHomePageComponent,
     LoginComponent,
-    Error404PageComponent,
-    Error403PageComponent,
+    Error404Component,
+    Error403Component,
+    BoHomeComponent,
+    NavbarComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { Error403PageComponent } from './pages/error403-page/error403-page.compo
     PanelModule,
     ToastModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    MenubarModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

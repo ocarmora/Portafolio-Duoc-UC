@@ -13,7 +13,9 @@ export class Comuna {
     @ManyToOne(type => Region, Region => Region.id)
     region: Region;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
 
 }

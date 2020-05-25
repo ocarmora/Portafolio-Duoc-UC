@@ -20,10 +20,6 @@ export class AuthService {
     return this._http.post(this.apiUrl + 'auth/login', userData);
   }
 
-  logout(){
-    sessionStorage.removeItem('token');
-  }
-
   setToken(token: string): void{
     sessionStorage.setItem('token', token);
   }

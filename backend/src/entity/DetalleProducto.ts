@@ -1,25 +1,20 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
-import { Usuario } from "./Usuario";
-import { CotizacionWeb } from "./CotizacionWeb";
 import { Producto } from "./Producto";
 
 @Entity()
-export class DetalleCotizacionWeb {
+export class DetalleProducto {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    cantidad: number;
+    sku: number;
 
     @Column()
-    precioNeto: number;
+    stock: number;
 
     @Column()
-    subtotalNeto: number;
-
-    @ManyToOne(type => CotizacionWeb, CotizacionWeb => CotizacionWeb.id)
-    cotizacionWeb: CotizacionWeb;
+    fechaVencimiento: string;
 
     @ManyToOne(type => Producto, Producto => Producto.id)
     producto: Producto;
@@ -28,6 +23,5 @@ export class DetalleCotizacionWeb {
       default: 1
     })
     activo: number;
-
 
 }

@@ -20,7 +20,10 @@ export class HistorialDocumento {
     @ManyToOne(type => Usuario, Usuario => Usuario.id)
     usuario: Usuario;
 
-    @Column()
+    @Column({
+      default: 1
+    })
     activo: number;
+
 
 }
