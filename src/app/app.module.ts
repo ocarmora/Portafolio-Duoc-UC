@@ -6,13 +6,10 @@ import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/shared/login/login.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { Error404Component } from './components/shared/error404/error404.component';
-import { Error403Component } from './components/shared/error403/error403.component';
-import { BoHomeComponent } from './components/back-office/bo-home/bo-home.component';
-import { NavbarComponent } from './components/shared/navbar/navbar.component';
-import { HomeComponent } from './components/shared/home/home.component';
+import { LoginComponent } from './shared/components/login/login.component';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { Error404Component } from './shared/components/error404/error404.component';
+import { Error403Component } from './shared/components/error403/error403.component';
 
 @NgModule({
   declarations: [
@@ -20,9 +17,6 @@ import { HomeComponent } from './components/shared/home/home.component';
     LoginComponent,
     Error404Component,
     Error403Component,
-    BoHomeComponent,
-    NavbarComponent,
-    HomeComponent,
   ],
   imports: [
     BrowserModule,

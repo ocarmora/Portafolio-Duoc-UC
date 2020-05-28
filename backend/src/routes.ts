@@ -1,5 +1,6 @@
 import {AuthController} from "./controller/AuthController";
 import { UsuarioController } from "./controller/UsuarioController";
+import { ProductCategoryController } from "./controller/ProductCategoryController";
 
 export const Routes = [
   // Auth route: login
@@ -29,5 +30,36 @@ export const Routes = [
     route: "users/:id",
     controller: UsuarioController,
     action: "one"
+  },
+  // Product Caregory CRUD routes
+  {
+    method: "get",
+    route: "products/categories",
+    controller: ProductCategoryController,
+    action: "all"
+  },
+  {
+    method: "post",
+    route: "products/categories",
+    controller: ProductCategoryController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "products/categories/:id",
+    controller: ProductCategoryController,
+    action: "delete"
+  },
+  {
+    method: "get",
+    route: "products/categories/:id",
+    controller: ProductCategoryController,
+    action: "one"
+  },
+  {
+    method: "patch",
+    route: "products/categories/:id",
+    controller: ProductCategoryController,
+    action: "update"
   }
 ];

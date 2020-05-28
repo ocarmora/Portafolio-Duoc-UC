@@ -1,0 +1,11 @@
+<form  [formGroup]="form" (ngSubmit)="sendData(form.value)" class="form" autocomplete="off">
+  <input type="hidden" name="id" formControlName="id">
+  <div class="form-group">
+    <label for="categoryName">Nombre categoría:</label>
+    <input type="text" id="categoryName" class="form-control col-md-5" formControlName="categoria" placeholder="Ingresa el nombre de la categoría en plural">
+  </div>
+  <div class="form-group">
+    <button type="button" class="btn btn-secondary" routerLink="/admin/productos/categorias"><i class="pi pi-arrow-left"></i></button>
+    <button type="submit" class="btn btn-primary ml-2" [disabled]="!form.valid">Guardar</button>
+  </div>
+</form>
