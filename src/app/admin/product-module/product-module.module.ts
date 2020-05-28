@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {TableModule} from 'primeng/table';
+import {DropdownModule} from 'primeng/dropdown';
+
 
 
 import { ProductModuleRoutingModule } from './product-module-routing.module';
@@ -16,6 +18,7 @@ import { ProductEditComponent } from './components/product/product-edit/product-
 import { ProductFormComponent } from './components/product/product-form/product-form.component';
 import { ProductCategoryListComponent } from './components/product-category/product-category-list/product-category-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProductListComponent } from './components/product/product-list/product-list.component';
 
 
 @NgModule({
@@ -30,13 +33,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductEditComponent,
     ProductFormComponent,
     ProductCategoryListComponent,
+    ProductListComponent,
   ],
   imports: [
     CommonModule,
     ProductModuleRoutingModule,
     TableModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DropdownModule
   ]
 })
 export class ProductModuleModule { }

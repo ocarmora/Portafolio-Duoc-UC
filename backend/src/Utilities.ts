@@ -1,4 +1,4 @@
-export enum UserTypesId{
+export enum UserType{
   Admin     = 1,
   Cliente   = 2,
   Vendedor  = 3,

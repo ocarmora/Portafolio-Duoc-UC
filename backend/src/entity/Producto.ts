@@ -9,6 +9,9 @@ export class Producto {
     id: number;
 
     @Column()
+    codigoDeBarra: number;
+
+    @Column()
     descripcion: string;
 
     @Column()

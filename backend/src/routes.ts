@@ -1,6 +1,7 @@
 import {AuthController} from "./controller/AuthController";
 import { UsuarioController } from "./controller/UsuarioController";
 import { ProductCategoryController } from "./controller/ProductCategoryController";
+import { ProductController } from "./controller/ProductController";
 
 export const Routes = [
   // Auth route: login
@@ -26,21 +27,28 @@ export const Routes = [
   },
   // User CRUD routes
   {
+    // Provider users
+    method: "get",
+    route: "users/providers",
+    controller: UsuarioController,
+    action: "getProviderUsers"
+  },
+  {
     method: "get",
     route: "users/:id",
     controller: UsuarioController,
     action: "one"
   },
-  // Product Caregory CRUD routes
+  // Product Category CRUD routes
   {
     method: "get",
-    route: "products/categories",
+    route: "products/categories/",
     controller: ProductCategoryController,
     action: "all"
   },
   {
     method: "post",
-    route: "products/categories",
+    route: "products/categories/",
     controller: ProductCategoryController,
     action: "save"
   },
@@ -60,6 +68,37 @@ export const Routes = [
     method: "patch",
     route: "products/categories/:id",
     controller: ProductCategoryController,
+    action: "update"
+  },
+  // Product CRUD routes
+  {
+    method: "get",
+    route: "products",
+    controller: ProductController,
+    action: "all"
+  },
+  {
+    method: "post",
+    route: "products",
+    controller: ProductController,
+    action: "save"
+  },
+  {
+    method: "delete",
+    route: "products/:id",
+    controller: ProductController,
+    action: "delete"
+  },
+  {
+    method: "get",
+    route: "products/:id",
+    controller: ProductController,
+    action: "one"
+  },
+  {
+    method: "patch",
+    route: "products/:id",
+    controller: ProductController,
     action: "update"
   }
 ];

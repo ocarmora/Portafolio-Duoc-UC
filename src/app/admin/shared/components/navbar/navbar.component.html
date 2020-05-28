@@ -8,9 +8,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" [routerLink]="['/']" routerLinkActive="router-link-active" >Inicio</a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-target="#maintainDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Administración
+          </a>
+          <div class="dropdown-menu" id="maintainDropdown">
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos']"> Mantenedor de productos</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos/categorias']"> Mantenedor de categorías</a>
+          </div>
+        </li>
+
       </ul>
 
       <ul class="navbar-nav">

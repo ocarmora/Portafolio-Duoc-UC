@@ -33,7 +33,6 @@ export const SwalConfirm = Swal.mixin({
   buttonsStyling: false
 })
 
-
 export function toLowerCase(obj: any) {
   if (!obj) {
     return;
@@ -58,4 +57,9 @@ export function toLowerCase(obj: any) {
     }
   });
   return result;
+}
+
+export const firstLetterCapitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }

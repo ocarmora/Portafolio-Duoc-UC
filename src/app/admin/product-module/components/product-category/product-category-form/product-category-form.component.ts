@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { toLowerCase } from 'src/app/shared/util';
+import { toLowerCase, firstLetterCapitalize } from 'src/app/shared/util';
 import { ProductCategoryService } from '../../../services/product-category.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -36,7 +36,7 @@ export class ProductCategoryFormComponent implements OnInit {
       this._productCategoryService.getOne(this.categoryId).toPromise().then((result: any) => {
         this.form.setValue({
           id: result.id,
-          categoria: result.categoria
+          categoria: firstLetterCapitalize(result.categoria)
         })
       });
     }
@@ -45,5 +45,4 @@ export class ProductCategoryFormComponent implements OnInit {
   sendData(formData: Object): void{
     this.formValues.emit(toLowerCase(formData));
   }
-
 }

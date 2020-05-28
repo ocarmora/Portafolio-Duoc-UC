@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductCategoryService } from '../../../services/product-category.service';
-import { ProductCategory } from '../../../interfaces/product-category';
-import { SwalConfirm, Toast } from './../../../../../shared/util';
+import { ProductCategory } from './../../../../../shared/interfaces/product-category';
+import { SwalConfirm, Toast, firstLetterCapitalize } from './../../../../../shared/util';
 
 @Component({
   selector: 'app-product-category-list',
@@ -20,7 +20,15 @@ export class ProductCategoryListComponent implements OnInit {
 
   getProductCategories(){
     this._productCategoryService.getAll().subscribe((result: ProductCategory[]) => {
-      this.productCategories = result;
+      this.productCategories = [];
+      let obj: any;
+      result.forEach(element => {
+        obj = {
+          id: element.id,
+          categoria: firstLetterCapitalize(element.categoria)
+        }
+        this.productCategories.push(obj);
+      });
     });
   }
 

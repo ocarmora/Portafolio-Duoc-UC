@@ -1,1 +1,35 @@
-<p>product-form works!</p>
+<form [formGroup]="form" (ngSubmit)="sendData()" class="form form-row" autocomplete="off">
+  <div class="form-group col-md-4">
+    <label for="codigoDeBarra">Codigo de barra: </label>
+    <input type="number" pattern="[0-9]*" id="codigoDeBarra" class="form-control" formControlName="codigoDeBarra">
+  </div>
+  <div class="form-group col-md-4">
+    <label for="precioNeto">Precio neto:</label>
+    <input id="precioNeto" type="number" class="form-control" formControlName="precioNeto">
+  </div>
+  <div class="form-group col-md-4">
+    <label for="stockCritico">Stock crítico:</label>
+    <input id="stockCritico" type="number" class="form-control" formControlName="stockCritico">
+  </div>
+
+
+  <div class="form-group col-md-4">
+    <label for="proveedor">Proveedor:</label>
+    <p-dropdown [inputId]="'proveedor'" [options]="providerUsers" [placeholder]="'Selecciona un proveedor'" [styleClass]="'form-control'" [filter]="true" [filterBy]="'label,value.rut'" [filterPlaceholder]="'Busca por nombre o RUT'" formControlName="proveedor"></p-dropdown>
+  </div>
+
+  <div class="form-group col-md-4">
+    <label for="categoria">Categoría:</label>
+    <p-dropdown [inputId]="'categoria'" [options]="productCategories" [placeholder]="'Selecciona una categoría'" [styleClass]="'form-control'" [filter]="true" [filterBy]="'label,value.id'" [filterPlaceholder]="'Busca por nombre o ID'" formControlName="categoriaProducto"></p-dropdown>
+  </div>
+
+
+  <div class="form-group col-md-4">
+    <label for="descripcion">Descripción:</label>
+    <input type="text" class="form-control" formControlName="descripcion">
+  </div>
+  <div class="form-group">
+    <button type="button" class="btn btn-secondary" routerLink="/admin/productos"><i class="pi pi-arrow-left"></i></button>
+    <button type="submit" class="btn btn-primary ml-2" [disabled]="!form.valid">Guardar</button>
+  </div>
+</form>

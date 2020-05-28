@@ -20,3 +20,7 @@ body .pi {
   font-size: 12px;
   line-height: 1.42857;
 }
+
+body .ui-inputtext {
+  padding: 0px;
+}

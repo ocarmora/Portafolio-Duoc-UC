@@ -8,9 +8,11 @@ import { ProductCreateComponent } from './components/product/product-create/prod
 import { ProductEditComponent } from './components/product/product-edit/product-edit.component';
 import { ProductCategoryComponent } from './components/product-category/product-category.component';
 import { ProductCategoryListComponent } from './components/product-category/product-category-list/product-category-list.component';
+import { ProductListComponent } from './components/product/product-list/product-list.component';
 
 const routes: Routes = [
   {path: '', component: ProductModuleComponent, children: [
+    {path: '', component: ProductListComponent},
     {path: 'crear', component: ProductCreateComponent},
     {path: 'editar/:id', component: ProductEditComponent},
     {path: 'categorias', component: ProductCategoryComponent, children: [

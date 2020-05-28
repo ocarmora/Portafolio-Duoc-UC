@@ -1,1 +1,15 @@
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 mb-3">
+      <h1 class="h3 ">Habilitar nuevo producto</h1>
+    </div>
+    <div class="col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <app-product-form (formValues)="create($event)"></app-product-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

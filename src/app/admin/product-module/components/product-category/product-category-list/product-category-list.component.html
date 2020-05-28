@@ -1,39 +1,54 @@
 <div class="container">
   <div class="row" *ngIf="productCategories.length == 0">
     <div class="col text-center">
-      <span>No se encontraron categorías. Crea una ahora: </span><br>
+      <span>No se encontraron categorías de productos. Crea una ahora: </span><br>
       <button class="btn btn-outline-primary mt-3" role="button" [routerLink]="['crear']"><i class="pi pi-plus"></i> Nueva categoría</button>
     </div>
   </div>
+
   <div class="row" *ngIf="productCategories.length > 0">
-    <div class="col-sm-12 mb-3">
-      <h1 class="h3 ">Categorías de productos</h1>
+
+    <div class="col-md-12 mb-4">
+      <h1 class="h3">Categorías de productos</h1>
+      <hr>
     </div>
-    <div class="col-sm-12">
-      <div class="card shadow">
-        <div class="card-body">
-          <button class="btn btn-primary mb-3" role="button" [routerLink]="['crear']"><i class="pi pi-plus"></i> Crear categoría</button>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Categoría</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let category of productCategories">
-                <th scope="row">{{ category.id }}</th>
-                <td>{{ category.categoria | titlecase }}</td>
-                <td>
-                  <button type="button" class="btn btn-outline-secondary btn-circle m-1" [routerLink]="['editar/' + category.id]"><i class="pi pi-pencil"></i></button>
-                  <button type="button" class="btn btn-outline-danger btn-circle m-1" (click)="confirmDelete(category.id)"><i class="pi pi-trash"></i></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+    <div class="col-sm-12 col-md-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-search"></i>
+          </span>
         </div>
+        <input type="text" class="form-control" placeholder="Busca por ID o nombre de la categoría" (input)="tt.filterGlobal($event.target.value, 'contains')">
       </div>
     </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary float-right" role="button" [routerLink]="['crear']"><i class="pi pi-plus"></i> Nueva categoría</button>
+    </div>
+
+    <div class="col-sm-12 mt-4">
+      <p-table #tt [value]="productCategories" [styleClass]="'shadow'" [paginator]="true" [rows]="10" [globalFilterFields]="['categoria', 'id']">
+        <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Administrar</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-productCategory>
+          <tr>
+            <td scope="row">{{productCategory.id}}</td>
+            <td>{{productCategory.categoria}}</td>
+            <td>
+              <button type="button" class="btn btn-outline-secondary btn-circle m-1" [routerLink]="['editar/' + productCategory.id]"><i class="pi pi-pencil"></i></button>
+              <button type="button" class="btn btn-outline-danger btn-circle m-1" (click)="confirmDelete(productCategory.id)"><i class="pi pi-trash"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
   </div>
 </div>

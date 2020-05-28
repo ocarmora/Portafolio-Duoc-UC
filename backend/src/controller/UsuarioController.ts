@@ -1,6 +1,7 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Usuario} from "../entity/Usuario";
+import {UserType} from "./../Utilities";
 
 export class UsuarioController {
 
@@ -15,6 +16,10 @@ export class UsuarioController {
     }).catch(error => {
       return response.sendStatus(500);
     });
+  }
+
+  async getProviderUsers(request: Request, response: Response, next: NextFunction){
+    return this.userRepository.find({where: {tipoUsuario: UserType.Proveedor}});
   }
 
 }
