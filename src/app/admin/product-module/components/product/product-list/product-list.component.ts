@@ -14,7 +14,6 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   productCategories: boolean; // Check if exists product categories
 
-
   constructor(private _productService: ProductService, private _productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -38,18 +37,17 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-
   confirmDelete(id: number){
     SwalConfirm.fire({
       title: 'Confirmar acción',
-      text: "Eliminarás definitivamente esta categoría"
+      text: 'Eliminarás definitivamente este producto'
     }).then(result => {
       if(result.value){
         this._productService.delete(id).subscribe(() => {
           this.getProducts();
           Toast.fire({
             icon: 'success',
-            titleText: 'Categoría eliminada'
+            titleText: 'Producto eliminado'
           })
         }, () => {
           Toast.fire({

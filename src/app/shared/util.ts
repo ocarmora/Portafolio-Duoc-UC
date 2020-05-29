@@ -63,3 +63,12 @@ export const firstLetterCapitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+export enum UserType{
+  Admin     = 1,
+  Cliente   = 2,
+  Vendedor  = 3,
+  Proveedor = 4,
+  Empleado  = 5,
+  Empresa   = 6
+}

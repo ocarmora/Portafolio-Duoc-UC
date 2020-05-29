@@ -40,8 +40,8 @@
       <p-table #tt [value]="products" [styleClass]="'shadow'" [paginator]="true" [rows]="10" [globalFilterFields]="['descripcion', 'codigoDeBarra']" [resizableColumns]="true">
         <ng-template pTemplate="header">
             <tr>
-              <th pResizableColumn>Código de barra</th>
-              <th pResizableColumn>Descripción</th>
+              <th pResizableColumn width="15%">Código de barra</th>
+              <th pResizableColumn width="40%">Descripción</th>
               <th pResizableColumn>Categoría</th>
               <th pResizableColumn>Stock crítico</th>
               <th pResizableColumn>Precio neto</th>
