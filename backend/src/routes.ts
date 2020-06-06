@@ -2,8 +2,18 @@ import {AuthController} from "./controller/AuthController";
 import { UsuarioController } from "./controller/UsuarioController";
 import { ProductCategoryController } from "./controller/ProductCategoryController";
 import { ProductController } from "./controller/ProductController";
+import { OrderController } from "./controller/OrderController";
+import { PaymentMethodController } from "./controller/PaymentMethodController";
+import { BusinessController } from "./controller/BusinessController";
 
 export const Routes = [
+  // Auth route: login
+  {
+    method: "get",
+    route: "business/detail",
+    controller: BusinessController,
+    action: "detail"
+  },
   // Auth route: login
   {
     method: "post",
@@ -100,5 +110,43 @@ export const Routes = [
     route: "products/:id",
     controller: ProductController,
     action: "update"
-  }
+  },
+  {
+    method: "get",
+    route: "products/provider/:id",
+    controller: ProductController,
+    action: "productsByProvider"
+  },
+  // Order CRUD routes
+  {
+    method: "post",
+    route: "orders",
+    controller: OrderController,
+    action: "save"
+  },
+  {
+    method: "get",
+    route: "orders",
+    controller: OrderController,
+    action: "getAll"
+  },
+  {
+    method: "delete",
+    route: "orders/:id",
+    controller: OrderController,
+    action: "remove"
+  },
+  {
+    method: "get",
+    route: "orders/:id",
+    controller: OrderController,
+    action: "one"
+  },
+  // Payment method CRUD routes
+  {
+    method: "get",
+    route: "payment",
+    controller: PaymentMethodController,
+    action: "getAll"
+  },
 ];

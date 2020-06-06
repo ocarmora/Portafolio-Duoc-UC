@@ -1,0 +1,64 @@
+<div class="container">
+
+  <div class="row" *ngIf="orders.length == 0">
+    <div class="col text-center">
+      <span>No se encontraron ordenes de compra. Crea una ahora: </span><br>
+      <button class="btn btn-outline-primary mt-3" role="button" [routerLink]="['crear']"><i class="pi pi-plus"></i> Nueva orden de compra</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="orders.length > 0">
+
+    <div class="col-md-12 mb-4">
+      <h1 class="h3">Ordenes de compra</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-search"></i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Busca por ID, proveedor o estado" (input)="tt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary float-right" role="button" [routerLink]="['crear']"><i class="pi pi-plus"></i> Nueva orden de compra</button>
+    </div>
+
+    <div class="col-sm-12 mt-4">
+      <p-table #tt [value]="orders" [styleClass]="'shadow'" [globalFilterFields]="['value.proveedor.detalle.nombre', 'value.id', 'value.activo']" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+              <th scope="col" width="10%">ID</th>
+              <th scope="col">Proveedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Emitida</th>
+              <th scope="col">Recibida</th>
+              <th scope="col"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+          <tr>
+            <td scope="row">{{ order.value.id }}</td>
+            <td>{{ order.value.proveedor.detalle.nombre}}</td>
+            <td>
+              <span class="badge badge-pill badge-danger" *ngIf="order.value.activo == 0">Anulada</span>
+              <span class="badge badge-pill badge-warning" *ngIf="order.value.activo == 1">Por recibir</span>
+              <span class="badge badge-pill badge-success" *ngIf="order.value.activo == 2">Recibida</span>
+            </td>
+            <td>{{ order.value.historial[0].fecha }}</td>
+            <td>-</td>
+            <td>
+              <button type="button" class="btn btn-outline-primary btn-circle" [routerLink]="[order.value.id]"><i class="pi pi-file-o"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </div>
+</div>

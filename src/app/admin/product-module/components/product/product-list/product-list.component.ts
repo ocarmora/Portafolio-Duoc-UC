@@ -40,7 +40,7 @@ export class ProductListComponent implements OnInit {
   confirmDelete(id: number){
     SwalConfirm.fire({
       title: 'Confirmar acción',
-      text: 'Eliminarás definitivamente este producto'
+      text: 'Eliminarás definitivamente este producto',
     }).then(result => {
       if(result.value){
         this._productService.delete(id).subscribe(() => {

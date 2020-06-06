@@ -1,6 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
 import { CategoriaProducto } from "./CategoriaProducto";
 import { Usuario } from "./Usuario";
+import { DetalleOrdenDeCompra } from "./DetalleOrdenDeCompra";
 
 @Entity()
 export class Producto {
@@ -19,6 +20,9 @@ export class Producto {
 
     @Column()
     stockCritico: number;
+
+    @OneToMany(type => DetalleOrdenDeCompra, detalleOrdenDeCompra => detalleOrdenDeCompra.producto)
+    detalleOrdenDeCompra: DetalleOrdenDeCompra[]
 
     @ManyToOne(type => Usuario, Usuario => Usuario.id)
     proveedor: Usuario;

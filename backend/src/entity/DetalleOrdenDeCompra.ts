@@ -5,19 +5,20 @@ import { OrdenDeCompra } from "./OrdenDeCompra";
 @Entity()
 export class DetalleOrdenDeCompra {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(type => Producto, Producto => Producto.id)
-    producto: Producto;
+  @Column()
+  cantidad: number;
 
-    @ManyToOne(type => OrdenDeCompra  , OrdenDeCompra => OrdenDeCompra.id)
-    ordenDeCompra: OrdenDeCompra;
+  @ManyToOne(type => Producto, Producto => Producto.detalleOrdenDeCompra)
+  producto: Producto;
 
-    @Column({
-      default: 1
-    })
-    activo: number;
+  @ManyToOne(type => OrdenDeCompra, ordenDeCompra => ordenDeCompra.detalle)
+  ordenDeCompra: OrdenDeCompra;
 
-
+  @Column({
+    default: 1
+  })
+  activo: number;
 }

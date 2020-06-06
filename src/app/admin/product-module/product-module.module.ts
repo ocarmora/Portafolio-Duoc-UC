@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {TableModule} from 'primeng/table';
-import {DropdownModule} from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 
 import { ProductModuleRoutingModule } from './product-module-routing.module';
 import { ProductModuleComponent } from './product-module.component';
 
-import {NavbarComponent} from './../shared/components/navbar/navbar.component';
 import { ProductCategoryComponent } from './components/product-category/product-category.component';
 import { ProductCategoryFormComponent } from './components/product-category/product-category-form/product-category-form.component';
 import { ProductCategoryCreateComponent } from './components/product-category/product-category-create/product-category-create.component';
@@ -19,12 +18,12 @@ import { ProductFormComponent } from './components/product/product-form/product-
 import { ProductCategoryListComponent } from './components/product-category/product-category-list/product-category-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
+import { AdminModule } from '../admin.module';
 
 
 @NgModule({
   declarations: [
     ProductModuleComponent,
-    NavbarComponent,
     ProductCategoryComponent,
     ProductCategoryFormComponent,
     ProductCategoryCreateComponent,
@@ -41,7 +40,8 @@ import { ProductListComponent } from './components/product/product-list/product-
     TableModule,
     FormsModule,
     ReactiveFormsModule,
-    DropdownModule
+    DropdownModule,
+    AdminModule
   ]
 })
 export class ProductModuleModule { }

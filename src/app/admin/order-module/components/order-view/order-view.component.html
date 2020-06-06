@@ -1,0 +1,155 @@
+<div class="container">
+
+  <div class="row" *ngIf="order">
+    <div class="col-sm-12 pl-0">
+      <button class="btn btn-secondary" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
+      <button class="btn btn-outline-primary ml-1"><i class="pi pi-download mr-1"></i>PDF</button>
+      <button class="btn btn-outline-danger ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)" (click)="cancelOrder(order.id)"><i class="pi pi-minus mr-1"></i> Anular</button>
+      <button class="btn btn-outline-success ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check mr-1"></i> Recibir</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="container mt-3 border shadow p-4 mb-4" *ngIf="order">
+
+  <div class="row">
+    <div class="col text-right">
+      <span class="badge badge-pill badge-success ml-1" *ngIf="order.activo == 2">Recibida</span>
+      <span class="badge badge-pill badge-warning ml-1" *ngIf="order.activo == 1">Por recibir</span>
+      <span class="badge badge-pill badge-danger ml-1" *ngIf="order.activo == 0">Anulada</span>
+    </div>
+  </div>
+
+    <div class="row">
+      <div class="col-sm-12 p-3">
+        <h2 class="text-center">Orden de compra Nº {{ order.id }}</h2>
+      </div>
+    </div>
+
+    <!-- datos empresa -->
+    <div class="row mt-5">
+      <div class="col-sm-12">
+        <p class="font-weight-bold">Orden de compra para:</p>
+        <div class="border p-2">
+          <div class="row">
+            <div class="col-md-6">
+              <p>Razón Social: {{ order.proveedor.detalle.nombre }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>RUT: {{ order.proveedor.rut }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <p>Dirección: {{ ( order.proveedor.detalle.direccion && order.proveedor.detalle.comuna ) ? order.proveedor.detalle.direccion + ', ' + order.proveedor.detalle.comuna : '-' }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>Teléfono: {{ order.proveedor.detalle.telefono || '-' }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <p>Método de pago: {{ order.metodoDePago | titlecase }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>Pago factura: {{ (order.pagoFacturaDias == 0) ? 'Contra entrega' : order.pagoFacturaDias + ' días'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /datos empresa -->
+
+    <!-- datos ferme -->
+    <div class="row mt-3">
+      <div class="col-sm-12">
+        <p class="font-weight-bold">Facturar a:</p>
+        <div class="border p-2" *ngIf="businessInfo">
+          <div class="row">
+            <div class="col-md-6">
+              <p>Razón Social: {{ businessInfo.razonSocial }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>RUT: {{ businessInfo.rut }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <p>Dirección: {{ businessInfo.direccion + ', ' + (businessInfo.comuna.comuna | titlecase ) }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>Teléfono: {{ businessInfo.telefono }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /datos ferme -->
+
+    <!-- table -->
+    <div class="row mt-3">
+      <div class="col-sm-12">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Descripción</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Precio neto</th>
+              <th scope="col">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order.detalle">
+              <td>{{ item.producto.descripcion}}</td>
+              <td>{{ item.cantidad}}</td>
+              <td>{{ item.producto.precioNeto | currency:'CLP'}}</td>
+              <td>{{ item.producto.precioNeto * item.cantidad | currency:'CLP' }}</td>
+            </tr>
+            <tr class="font-weight-bold">
+              <th scope="row" colspan="2"></th>
+              <td class="text-right">Total Neto</td>
+              <td>{{ orderSubTotal | currency:'CLP' }}</td>
+            </tr>
+            <tr class="font-weight-bold">
+              <th scope="row" colspan="2"></th>
+              <td class="text-right">IVA (19%)</td>
+              <td>{{ orderTax | currency:'CLP' }}</td>
+            </tr>
+            <tr class="font-weight-bold">
+              <th scope="row" colspan="2"></th>
+              <td class="text-right">Total</td>
+              <td>{{ orderTotal | currency:'CLP'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- /table -->
+
+    <!-- commentary -->
+    <div class="row">
+
+      <div class="col-sm-12 col-md-6">
+        <div class="form-group col-12 p-0">
+          <label for="">Comentarios:</label>
+          <textarea class="form-control" rows="5" disabled style="resize: none;" [value]="order.comentario"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <!-- /commentary -->
+
+    <!-- note -->
+    <div class="row">
+
+      <div class="col-sm-12 mt-3">
+        <hr>
+        <p class="text-muted text-center mt-3">En caso de dudas sobre esta orden de compra, favor contactar a nuestra oficina</p>
+      </div>
+
+    </div>
+    <!-- /note -->
+
+
+</div>

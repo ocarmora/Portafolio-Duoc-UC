@@ -43,7 +43,6 @@ export class ProductFormComponent implements OnInit {
     this.formInit(this.formType);
   }
 
-
   formInit(formType: String){
     if(formType == 'edit'){
       this._productService.getOne(this.productId).subscribe(result => {
