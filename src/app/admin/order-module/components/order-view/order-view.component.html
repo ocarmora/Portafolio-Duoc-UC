@@ -1,34 +1,33 @@
 <div class="container">
-
   <div class="row" *ngIf="order">
     <div class="col-sm-12 pl-0">
-      <button class="btn btn-secondary" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
-      <button class="btn btn-outline-primary ml-1"><i class="pi pi-download mr-1"></i>PDF</button>
+      <button class="btn btn-secondary mr-1" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
+      <button class="btn btn-outline-primary ml-1" (click)="onExportPDFClick()"><i class="pi pi-download mr-1"></i>Descargar</button>
       <button class="btn btn-outline-danger ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)" (click)="cancelOrder(order.id)"><i class="pi pi-minus mr-1"></i> Anular</button>
-      <button class="btn btn-outline-success ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check mr-1"></i> Recibir</button>
+      <button class="btn btn-outline-info ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check mr-1"></i> Recibir</button>
     </div>
   </div>
-
 </div>
 
-<div class="container mt-3 border shadow p-4 mb-4" *ngIf="order">
+<div class="container border mt-3 mb-4" *ngIf="order">
+  <div id="orderToPdf" class="p-4">
 
-  <div class="row">
-    <div class="col text-right">
-      <span class="badge badge-pill badge-success ml-1" *ngIf="order.activo == 2">Recibida</span>
-      <span class="badge badge-pill badge-warning ml-1" *ngIf="order.activo == 1">Por recibir</span>
-      <span class="badge badge-pill badge-danger ml-1" *ngIf="order.activo == 0">Anulada</span>
+    <div class="row">
+      <div class="col-sm-12">
+        <img src="assets/img/logo-ferme-ferreteria.jpg" alt="Logo OC" style="width: 100%; max-width: 140px; min-width: 90px;">
+      </div>
     </div>
-  </div>
 
     <div class="row">
       <div class="col-sm-12 p-3">
-        <h2 class="text-center">Orden de compra Nº {{ order.id }}</h2>
+        <h1 class="text-center h3" *ngIf="businessInfo">{{ businessInfo.razonSocial }}</h1>
+        <h2 class="text-center h4">Orden de compra Nº{{ order.id }}</h2>
+        <p class="text-center">Fecha: {{ order.historial[0].fecha }}</p>
       </div>
     </div>
 
     <!-- datos empresa -->
-    <div class="row mt-5">
+    <div class="row mt-2">
       <div class="col-sm-12">
         <p class="font-weight-bold">Orden de compra para:</p>
         <div class="border p-2">
@@ -90,6 +89,7 @@
     <!-- table -->
     <div class="row mt-3">
       <div class="col-sm-12">
+        <p class="font-weight-bold">Detalle de productos:</p>
         <table class="table table-bordered table-sm">
           <thead>
             <tr>
@@ -129,27 +129,12 @@
 
     <!-- commentary -->
     <div class="row">
-
-      <div class="col-sm-12 col-md-6">
-        <div class="form-group col-12 p-0">
-          <label for="">Comentarios:</label>
-          <textarea class="form-control" rows="5" disabled style="resize: none;" [value]="order.comentario"></textarea>
-        </div>
+      <div class="col-sm-12">
+          <p class="font-weight-bold">Comentarios:</p>
+          <div class="border pl-2 pt-4 pr-2 pb-4">{{order.comentario}}</div>
       </div>
-
     </div>
     <!-- /commentary -->
 
-    <!-- note -->
-    <div class="row">
-
-      <div class="col-sm-12 mt-3">
-        <hr>
-        <p class="text-muted text-center mt-3">En caso de dudas sobre esta orden de compra, favor contactar a nuestra oficina</p>
-      </div>
-
-    </div>
-    <!-- /note -->
-
-
+  </div>
 </div>

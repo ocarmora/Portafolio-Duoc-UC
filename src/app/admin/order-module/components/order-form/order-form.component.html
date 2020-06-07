@@ -1,5 +1,11 @@
 <div class="row">
 
+  <div class="col-sm-12" *ngIf="orderProducts.length == 0">
+    <div class="alert alert-light text-center" role="alert" >
+      <i class="pi pi-info"></i> Selecciona un proveedor para agregar productos a esta orden de compra
+    </div>
+  </div>
+
   <div class="form-group col-md-6">
     <label for="proveedor">Proveedor:</label>
     <p-dropdown [(ngModel)]="providerSelected" (onChange)="getProductsFromProvider($event.value)" [options]="providers" [placeholder]="'Selecciona un proveedor'" [styleClass]="'form-control'" [filter]="true" [filterBy]="'label,value.rut'" [filterPlaceholder]="'Busca por nombre o RUT'" [disabled]="orderProducts.length > 0"></p-dropdown>
@@ -10,10 +16,6 @@
   </div>
 
   <div class="col-sm-12">
-
-    <div class="alert alert-light text-center" role="alert" *ngIf="orderProducts.length == 0">
-      <i class="pi pi-info"></i> Selecciona un proveedor para agregar productos a esta orden de compra
-    </div>
 
     <table class="table mt-3" *ngIf="orderProducts.length > 0">
       <thead>

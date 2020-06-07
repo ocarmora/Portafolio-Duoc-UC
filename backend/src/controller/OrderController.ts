@@ -36,6 +36,8 @@ export class OrderController {
         alias: 'order',
         leftJoinAndSelect: {
           historial: 'order.historial',
+          detalle: 'order.detalle',
+          producto: 'detalle.producto'
         }
       },
       relations: [

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';
-import { SwalConfirm } from 'src/app/shared/util';
 
 @Component({
   selector: 'app-order-list',
@@ -9,7 +8,7 @@ import { SwalConfirm } from 'src/app/shared/util';
 })
 export class OrderListComponent implements OnInit {
 
-  orders = [];
+  orders: any = [];
 
   constructor(private _orderService: OrderService) { }
 
@@ -20,11 +19,21 @@ export class OrderListComponent implements OnInit {
   getOrders(){
     this._orderService.getOrders().subscribe((result:any) => {
       this.orders = [];
-      result.forEach(element => {
+      result.forEach((element: any) => {
+
+        let total: number = 0;
+
+        element.detalle.forEach(product => {
+          let subtotal = product.cantidad * product.producto.precioNeto;
+          total += subtotal;
+        });
+
         let obj = {
           label: element.activo,
-          value: element
+          value: element,
+          total: total
         };
+
         this.orders.push(obj);
       });
     })

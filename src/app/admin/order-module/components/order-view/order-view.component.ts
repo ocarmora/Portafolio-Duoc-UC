@@ -4,6 +4,7 @@ import { OrderService } from '../../services/order.service';
 import { Order } from 'src/app/shared/interfaces/order';
 import { SwalConfirm, Toast } from 'src/app/shared/util';
 import { BusinessService } from 'src/app/shared/services/business.service';
+import * as html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-order-view',
@@ -64,6 +65,42 @@ export class OrderViewComponent implements OnInit {
         });
       }
     })
+  }
+
+  onExportPDFClick(){
+    const options = {
+      margin: 0,
+      filename: 'OC-'+ this.order.id + '_' + this.order.historial[0].fecha +'.pdf',
+      image: {
+        type: 'jpeg'
+      },
+      html2canvas: {
+        scale: 4
+      },
+      jsPDF: {
+        unit: 'cm',
+        format: 'letter',
+        orientation: 'portrait',
+      }
+    }
+
+    const content: Element = document.getElementById('orderToPdf');
+
+    html2pdf()
+    .from(content)
+    .set(options)
+    .save()
+    .then(() => {
+      Toast.fire({
+        icon: 'success',
+        titleText: 'Documento generado'
+      })
+    }).catch(() => {
+      Toast.fire({
+        icon: 'error',
+        titleText: 'Inténtalo nuevamente'
+      })
+    });
   }
 
 }
