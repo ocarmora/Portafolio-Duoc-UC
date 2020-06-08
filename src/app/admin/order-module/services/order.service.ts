@@ -13,6 +13,10 @@ export class OrderService {
     return this._http.get(environment.API_PATH + 'users/providers');
   }
 
+  getOpenOrders(){
+    return this._http.get(environment.API_PATH + 'orders/open');
+  }
+
   getOrders(){
     return this._http.get(environment.API_PATH + 'orders');
   }

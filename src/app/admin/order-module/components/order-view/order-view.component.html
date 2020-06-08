@@ -4,7 +4,7 @@
       <button class="btn btn-secondary mr-1" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
       <button class="btn btn-outline-primary ml-1" (click)="onExportPDFClick()"><i class="pi pi-download mr-1"></i>Descargar</button>
       <button class="btn btn-outline-danger ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)" (click)="cancelOrder(order.id)"><i class="pi pi-minus mr-1"></i> Anular</button>
-      <button class="btn btn-outline-info ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check mr-1"></i> Recibir</button>
+      <button class="btn btn-outline-info ml-1" [routerLink]="['/admin/inventario/ingresar/' + order.id]" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check mr-1"></i> Recibir</button>
     </div>
   </div>
 </div>

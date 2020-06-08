@@ -1,0 +1,100 @@
+<form action="" (submit)="sendForm()" ngNativeValidate>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label for="">Orden de compra:</label>
+      <p-dropdown name="orderSelected" [(ngModel)]="orderSelected" [options]="orders" [placeholder]="'Selecciona un orden de compra'" [styleClass]="'form-control'"></p-dropdown>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12"*ngIf="!orderSelected">
+      <div class="alert alert-light text-center" role="alert" >
+        <i class="pi pi-info"></i> Selecciona una orden de compra para listar los productos
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <table class="table" *ngIf="orderSelected">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Fecha de vencimiento</th>
+            <th>VB</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of orderSelected.detalle; let i = index" [attr.data-index]="i">
+            <td>{{ product.producto.descripcion }}</td>
+            <td>{{ product.cantidad }}</td>
+            <td>
+              <button type="button" class="btn text-primary font-italic btn-link" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id)">Establecer fecha</button>
+              <!-- <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="checkbox" [name]="'tieneFecha' + product.id" [(ngModel)]="orderSelected.detalle[i].tieneFecha" [disabled]="productCheck.includes(product.id)">
+                  </div>
+                </div>
+                <p-inputMask [styleClass]="'form-control'" [name]="'fechaVencimiento' + product.id" mask="99/99/9999" slotChar="dd/mm/yyyy" [required]="orderSelected.detalle[i].tieneFecha" [disabled]="!orderSelected.detalle[i].tieneFecha || productCheck.includes(product.id)" [(ngModel)]="orderSelected.detalle[i].fechaVencimiento"></p-inputMask>
+              </div> -->
+            </td>
+            <td>
+              <p-checkbox name="groupname" [value]="product.id" [(ngModel)]="productCheck"></p-checkbox>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-primary">Ingresar productos</button>
+    </div>
+  </div>
+
+</form>
+
+
+<!-- Modal -->
+<div class="modal fade" id="expirationDateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Fecha de vencimiento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row align-items-end">
+
+        <div class="col-sm-12">
+          <table class="table table-sm" *ngIf="(orderSelected && orderSelected.detalle[productExpirationDate.index].detalleFechasVencimiento)">
+            <thead>
+              <tr>
+                <th>Cantidad</th>
+                <th>Fecha de vencimiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderSelected.detalle[productExpirationDate.index].detalleFechasVencimiento">
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="">Cantidad:</label>
+          <input type="number" class="form-control" min="1" [max]="(orderSelected && orderSelected.detalle[productExpirationDate.index].cantidad)" [(ngModel)]="productExpirationDate.quantity">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">Fecha de vencimiento:</label>
+          <p-inputMask [styleClass]="'form-control'" mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="productExpirationDate.date"></p-inputMask>
+        </div>
+        <div class="form-group col-md-3">
+          <button class="btn btn-primary btn-block" (click)="onAddExpirationDate()" [disabled]="!productExpirationDate.date || !productExpirationDate.quantity">Añadir</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

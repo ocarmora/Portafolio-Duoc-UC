@@ -21,9 +21,11 @@ body .pi {
   line-height: 1.42857;
 }
 
-body .ui-inputtext {
+body label.ui-inputtext {
   padding: 0px;
+  margin: 0px;
 }
+
 
 .ui-multiselect{
   width: 100%;

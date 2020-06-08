@@ -138,6 +138,12 @@ export const Routes = [
   },
   {
     method: "get",
+    route: "orders/open",
+    controller: OrderController,
+    action: "openOrders"
+  },
+  {
+    method: "get",
     route: "orders/:id",
     controller: OrderController,
     action: "one"

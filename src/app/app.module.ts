@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +33,8 @@ registerLocaleData(localeCL, 'es-CL');
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: LOCALE_ID, useValue: 'es-CL'}
+    {provide: LOCALE_ID, useValue: 'es-CL'},
+    {provide: DEFAULT_CURRENCY_CODE, useValue: 'CLP'}
   ],
   bootstrap: [AppComponent]
 })

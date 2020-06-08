@@ -49,6 +49,28 @@ export class OrderController {
     });
   }
 
+  openOrders(request: Request, response: Response, next: NextFunction){
+    return this.orderRepository.find({
+      where: {
+        activo: 1 // open order
+      },
+      join: {
+        alias: 'order',
+        leftJoinAndSelect: {
+          historial: 'order.historial',
+          detalle: 'order.detalle',
+          producto: 'detalle.producto'
+        }
+      },
+      relations: [
+        'proveedor'
+      ],
+      order: {
+        id: 'DESC'
+      }
+    });
+  }
+
   async save(request: Request, response: Response, next: NextFunction){
 
     let order = new OrdenDeCompra();
