@@ -138,6 +138,11 @@ export class InventoryFormComponent implements OnInit {
     this.expirationDates = [];
   }
 
+  removeExpirationDate(item: any){
+    const index = this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.indexOf(item);
+    this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.splice(index, 1);
+  }
+
   sendForm(){
     if(this.orderSelected.detalle.length !== this.productCheck.length){
       Swal.fire({

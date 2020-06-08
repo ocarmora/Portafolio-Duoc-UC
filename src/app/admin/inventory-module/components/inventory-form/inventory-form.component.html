@@ -26,15 +26,7 @@
             <td>{{ product.producto.descripcion }}</td>
             <td>{{ product.cantidad }}</td>
             <td>
-              <button type="button" class="btn text-primary font-italic btn-link" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id)">Establecer fecha</button>
-              <!-- <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <input type="checkbox" [name]="'tieneFecha' + product.id" [(ngModel)]="orderSelected.detalle[i].tieneFecha" [disabled]="productCheck.includes(product.id)">
-                  </div>
-                </div>
-                <p-inputMask [styleClass]="'form-control'" [name]="'fechaVencimiento' + product.id" mask="99/99/9999" slotChar="dd/mm/yyyy" [required]="orderSelected.detalle[i].tieneFecha" [disabled]="!orderSelected.detalle[i].tieneFecha || productCheck.includes(product.id)" [(ngModel)]="orderSelected.detalle[i].fechaVencimiento"></p-inputMask>
-              </div> -->
+              <button type="button" class="btn btn-outline-primary" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id) && !product.detalleFechasVencimiento">{{ (product.detalleFechasVencimiento) ? 'Ver detalle' : 'Ingresar fechas' }}</button>
             </td>
             <td>
               <p-checkbox name="groupname" [value]="product.id" [(ngModel)]="productCheck"></p-checkbox>
@@ -58,40 +50,45 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Fecha de vencimiento</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Vencimiento del producto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body row align-items-end">
+      <div class="modal-body row" *ngIf="orderSelected">
 
-        <div class="col-sm-12">
-          <table class="table table-sm" *ngIf="(orderSelected && orderSelected.detalle[productExpirationDate.index].detalleFechasVencimiento)">
+        <div class="col-sm-12" *ngIf="(orderSelected.detalle[productExpirationDate.index].detalleFechasVencimiento) ? ((orderSelected.detalle[productExpirationDate.index].detalleFechasVencimiento.length > 0) ? true : false) : false">
+          <table class="table table-sm">
             <thead>
               <tr>
                 <th>Cantidad</th>
                 <th>Fecha de vencimiento</th>
+                <th *ngIf="!productCheck.includes(orderSelected.detalle[productExpirationDate.index].id)">Remover</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of orderSelected.detalle[productExpirationDate.index].detalleFechasVencimiento">
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.date }}</td>
+                <td *ngIf="!productCheck.includes(orderSelected.detalle[productExpirationDate.index].id)"><button class="btn text-danger" (click)="removeExpirationDate(item)"><i class="pi pi-minus-circle"></i></button></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="form-group col-md-3">
-          <label for="">Cantidad:</label>
-          <input type="number" class="form-control" min="1" [max]="(orderSelected && orderSelected.detalle[productExpirationDate.index].cantidad)" [(ngModel)]="productExpirationDate.quantity">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="">Fecha de vencimiento:</label>
-          <p-inputMask [styleClass]="'form-control'" mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="productExpirationDate.date"></p-inputMask>
-        </div>
-        <div class="form-group col-md-3">
-          <button class="btn btn-primary btn-block" (click)="onAddExpirationDate()" [disabled]="!productExpirationDate.date || !productExpirationDate.quantity">Añadir</button>
+        <div class="col-sm-12 row align-items-end" *ngIf="!productCheck.includes(orderSelected.detalle[productExpirationDate.index].id)">
+          <hr>
+          <div class="form-group col-md-3 ">
+            <label for="">Cantidad:</label>
+            <input type="number" class="form-control" min="1" [max]="orderSelected.detalle[productExpirationDate.index].cantidad" [(ngModel)]="productExpirationDate.quantity">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="">Fecha de vencimiento:</label>
+            <p-inputMask [styleClass]="'form-control'" mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="productExpirationDate.date"></p-inputMask>
+          </div>
+          <div class="form-group col-md-3">
+            <button class="btn btn-primary btn-block" (click)="onAddExpirationDate()" [disabled]="!productExpirationDate.date || !productExpirationDate.quantity">Añadir</button>
+          </div>
         </div>
 
       </div>
