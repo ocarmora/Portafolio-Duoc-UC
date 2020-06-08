@@ -2,7 +2,7 @@
   <div class="row">
     <div class="form-group col-md-6">
       <label for="">Orden de compra:</label>
-      <p-dropdown name="orderSelected" [(ngModel)]="orderSelected" [options]="orders" [placeholder]="'Selecciona un orden de compra'" [styleClass]="'form-control'"></p-dropdown>
+      <p-dropdown name="orderSelected" [filter]="true" [filterBy]="'id,value.proveedor.detalle.nombre'" [filterPlaceholder]="'Filtra por ID de orden o nombre del proveedor'" [(ngModel)]="orderSelected" [options]="orders" [placeholder]="'Selecciona un orden de compra'" [styleClass]="'form-control'"></p-dropdown>
     </div>
   </div>
   <div class="row">
@@ -26,7 +26,7 @@
             <td>{{ product.producto.descripcion }}</td>
             <td>{{ product.cantidad }}</td>
             <td>
-              <button type="button" class="btn btn-outline-primary" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id) && !product.detalleFechasVencimiento">{{ (product.detalleFechasVencimiento) ? 'Ver detalle' : 'Ingresar fechas' }}</button>
+              <button type="button" class="btn btn-outline-primary" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id) && !(product.detalleFechasVencimiento && product.detalleFechasVencimiento.length)">{{ (product.detalleFechasVencimiento) && product.detalleFechasVencimiento.length ? 'Ver fechas' : 'Ingresar fechas' }}</button>
             </td>
             <td>
               <p-checkbox name="groupname" [value]="product.id" [(ngModel)]="productCheck"></p-checkbox>
@@ -38,7 +38,8 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <button type="submit" class="btn btn-primary">Ingresar productos</button>
+      <button class="btn btn-secondary" [routerLink]="['/admin/inventario']"><i class="pi pi-arrow-left"></i></button>
+      <button type="submit" class="ml-1 btn btn-primary">Ingresar productos</button>
     </div>
   </div>
 
@@ -84,7 +85,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="">Fecha de vencimiento:</label>
-            <p-inputMask [styleClass]="'form-control'" mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="productExpirationDate.date"></p-inputMask>
+            <p-inputMask [inputId]="'modalExpirationDate'" [styleClass]="'form-control'" mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="productExpirationDate.date"></p-inputMask>
           </div>
           <div class="form-group col-md-3">
             <button class="btn btn-primary btn-block" (click)="onAddExpirationDate()" [disabled]="!productExpirationDate.date || !productExpirationDate.quantity">Añadir</button>

@@ -4,8 +4,8 @@ import { Order } from 'src/app/shared/interfaces/order';
 import { SelectItem } from 'primeng/api/selectitem';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import * as Moment from 'moment';
 import { SwalConfirm, Toast } from 'src/app/shared/util';
-
 
 declare var $: any;
 
@@ -18,11 +18,9 @@ export class InventoryFormComponent implements OnInit {
 
   orders: SelectItem[] = [];
   orderSelected: any;
-
   productCheck: string[] = []; // VB checkbox
-
   expirationDates = [];
-
+  modalClose: boolean = false;
   productExpirationDate: any = {
     index: 0,
     quantity: '',
@@ -33,6 +31,11 @@ export class InventoryFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOpenOrders();
+
+    $('#expirationDateModal').on('hide.bs.modal', (e) => {
+      this.checkExpiratioDates(e);
+    });
+
   }
 
   getOpenOrders(){
@@ -74,6 +77,38 @@ export class InventoryFormComponent implements OnInit {
   }
 
   onAddExpirationDate(){
+    let moment = Moment;
+    let today = moment();
+    let inputDate = moment(this.productExpirationDate.date, "DD/MM/YYYY");
+
+    // Validate date on input date
+    if(!inputDate.isValid()){
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Fecha incorrecta',
+        text: 'La fecha de vencimiento que ingresaste no es válida',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+        confirmButtonText: 'Entendido'
+      });
+    }
+
+    // Validate if input date is before today
+    if(moment(inputDate).isBefore(today)){
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Fecha incorrecta',
+        text: 'El producto que estás ingresando parece estar vencido',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+        confirmButtonText: 'Entendido'
+      });
+    }
+
     let obj = {
       quantity: this.productExpirationDate.quantity,
       date: this.productExpirationDate.date,
@@ -83,9 +118,9 @@ export class InventoryFormComponent implements OnInit {
 
     if(obj.quantity > this.orderSelected.detalle[this.productExpirationDate.index].cantidad){
       Swal.fire({
-        icon: 'error',
+        icon: 'warning',
         title: 'Cantidad incorrecta',
-        text: 'La cantidad ingresada no puede ser mayor a la cantidad total del producto de la orden de compra',
+        text: 'La cantidad ingresada no puede ser mayor al total del producto en la orden de compra',
         customClass: {
           confirmButton: 'btn btn-primary',
         },
@@ -109,9 +144,9 @@ export class InventoryFormComponent implements OnInit {
 
         if((obj.quantity + sumCantidad) > this.orderSelected.detalle[this.productExpirationDate.index].cantidad){
           Swal.fire({
-            icon: 'error',
+            icon: 'warning',
             title: 'Cantidad incorrecta',
-            text: 'La cantidad ingresada no puede ser mayor a la cantidad total del producto de la orden de compra',
+            text: 'La cantidad ingresada no puede ser mayor al total del producto en la orden de compra',
             customClass: {
               confirmButton: 'btn btn-primary',
             },
@@ -125,7 +160,23 @@ export class InventoryFormComponent implements OnInit {
           return;
 
         }else{
-          this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.push(obj)
+
+          let elementIndex: number = 0;
+          let dateExist: boolean = false;
+
+          this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.forEach((element: any) => {
+            if(element.date == obj.date){
+              dateExist = true;
+              elementIndex = this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.indexOf(element);
+            }
+          });
+
+          if(dateExist){
+            this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento[elementIndex].quantity += obj.quantity
+          }else{
+            this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.push(obj);
+          }
+
         }
       }else{
         this.expirationDates.push(obj);
@@ -136,11 +187,43 @@ export class InventoryFormComponent implements OnInit {
     this.productExpirationDate.quantity = '';
     this.productExpirationDate.date = '';
     this.expirationDates = [];
+
   }
 
   removeExpirationDate(item: any){
     const index = this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.indexOf(item);
     this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.splice(index, 1);
+  }
+
+  checkExpiratioDates(event: any){
+    if(!this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento || (this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento && this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.length == 0)){ // no hay fechas de vencimiento
+      this.productExpirationDate.date = '';
+      this.productExpirationDate.quantity = '';
+      return;
+    }
+
+    let sumExpirationQuantity: number = 0;
+
+    this.orderSelected.detalle[this.productExpirationDate.index].detalleFechasVencimiento.forEach((element: any) => {
+      sumExpirationQuantity += element.quantity;
+    });
+
+    if(sumExpirationQuantity !== this.orderSelected.detalle[this.productExpirationDate.index].cantidad){
+      event.preventDefault();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Productos incompletos',
+        text: 'Debes ingresar las fechas de vencimiento del total del producto',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+        confirmButtonText: 'Entendido'
+      });
+
+      this.productExpirationDate.date = '';
+      this.productExpirationDate.quantity = '';
+    }
   }
 
   sendForm(){

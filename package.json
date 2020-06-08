@@ -25,6 +25,7 @@
     "bootswatch": "^4.5.0",
     "html2pdf.js": "^0.9.2",
     "jquery": "^3.5.1",
+    "moment": "^2.26.0",
     "primeicons": "^3.0.0-rc.1",
     "primeng": "^9.0.6",
     "rxjs": "~6.5.4",
