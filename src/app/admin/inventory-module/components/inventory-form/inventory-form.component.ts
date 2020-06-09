@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { OrderService } from 'src/app/admin/order-module/services/order.service';
 import { Order } from 'src/app/shared/interfaces/order';
 import { SelectItem } from 'primeng/api/selectitem';
@@ -15,6 +15,9 @@ declare var $: any;
   styleUrls: ['./inventory-form.component.css']
 })
 export class InventoryFormComponent implements OnInit {
+
+  @Output()
+  sendFormEvent = new EventEmitter();
 
   orders: SelectItem[] = [];
   orderSelected: any;
@@ -242,6 +245,12 @@ export class InventoryFormComponent implements OnInit {
       return;
     }
 
+    let formData = {
+      id: this.orderSelected.id,
+      detalle: this.orderSelected.detalle,
+      proveedorId: this.orderSelected.proveedor.id
+    }
+
     SwalConfirm.fire({
       icon: 'warning',
       title: 'Confirmar ingreso de stock',
@@ -252,18 +261,14 @@ export class InventoryFormComponent implements OnInit {
       },
       confirmButtonText: 'Confirmar'
     }).then(response => {
+
       if(!response.value){
         return;
       }
 
-      Toast.fire({
-        icon: 'success',
-        titleText: 'Productos ingresados'
-      });
+      this.sendFormEvent.emit(formData);
 
-      //return this._router.navigate(['/admin/inventario']);
-
-    })
+    });
   }
 
 }

@@ -5,6 +5,7 @@ import { ProductController } from "./controller/ProductController";
 import { OrderController } from "./controller/OrderController";
 import { PaymentMethodController } from "./controller/PaymentMethodController";
 import { BusinessController } from "./controller/BusinessController";
+import { InventoryController } from "./controller/InventoryController";
 
 export const Routes = [
   // Auth route: login
@@ -154,5 +155,12 @@ export const Routes = [
     route: "payment",
     controller: PaymentMethodController,
     action: "getAll"
+  },
+  // Inventory CRUD routes
+  {
+    method: "post",
+    route: "inventory",
+    controller: InventoryController,
+    action: "create"
   },
 ];

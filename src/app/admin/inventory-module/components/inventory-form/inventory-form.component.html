@@ -2,7 +2,7 @@
   <div class="row">
     <div class="form-group col-md-6">
       <label for="">Orden de compra:</label>
-      <p-dropdown name="orderSelected" [filter]="true" [filterBy]="'id,value.proveedor.detalle.nombre'" [filterPlaceholder]="'Filtra por ID de orden o nombre del proveedor'" [(ngModel)]="orderSelected" [options]="orders" [placeholder]="'Selecciona un orden de compra'" [styleClass]="'form-control'"></p-dropdown>
+      <p-dropdown name="orderSelected" (onChange)="productCheck = []" [filter]="true" [filterBy]="'id,value.proveedor.detalle.nombre'" [filterPlaceholder]="'Filtra por ID de orden o nombre del proveedor'" [(ngModel)]="orderSelected" [options]="orders" [placeholder]="'Selecciona un orden de compra'" [styleClass]="'form-control'"></p-dropdown>
     </div>
   </div>
   <div class="row">

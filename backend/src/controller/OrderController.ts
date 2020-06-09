@@ -49,7 +49,7 @@ export class OrderController {
     });
   }
 
-  openOrders(request: Request, response: Response, next: NextFunction){
+  async openOrders(request: Request, response: Response, next: NextFunction){
     return this.orderRepository.find({
       where: {
         activo: 1 // open order
@@ -59,7 +59,8 @@ export class OrderController {
         leftJoinAndSelect: {
           historial: 'order.historial',
           detalle: 'order.detalle',
-          producto: 'detalle.producto'
+          producto: 'detalle.producto',
+          categoria: 'producto.categoriaProducto'
         }
       },
       relations: [
