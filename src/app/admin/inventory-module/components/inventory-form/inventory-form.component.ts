@@ -44,13 +44,6 @@ export class InventoryFormComponent implements OnInit {
   getOpenOrders(){
     this._orderService.getOpenOrders().subscribe((result: Order[]) => {
       result.forEach((element: any) => {
-
-        // let total: number = 0;
-        // element.detalle.forEach(product => {
-        //   let subtotal = product.cantidad * product.producto.precioNeto;
-        //   total += subtotal;
-        // });
-
         let obj = {
           id: element.id,
           label: 'OC Nº ' + element.id + ' | ' + element.proveedor.detalle.nombre, //+ ' | Total: $' + total

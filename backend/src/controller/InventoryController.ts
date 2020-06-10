@@ -42,18 +42,17 @@ export class InventoryController {
         nombre: element.cp_categoria,
       }
 
-      obj.proveedor = {
-        id: element.pr_id,
-        nombre: JSON.parse(element.pr_detalle).nombre,
-      }
+      // obj.proveedor = {
+      //   id: element.pr_id,
+      //   nombre: JSON.parse(element.pr_detalle).nombre,
+      // }
 
        result.push(obj);
 
     });
 
-
     response.status(200).send(result);
-   // response.status(200).send(resultFetched);
+    //response.status(200).send(resultFetched);
 
   }
 

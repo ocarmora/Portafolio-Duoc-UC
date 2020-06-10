@@ -6,6 +6,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {InputMaskModule} from 'primeng/inputmask';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TableModule} from 'primeng/table';
+import {TooltipModule} from 'primeng/tooltip';
 
 import { InventoryModuleRoutingModule } from './inventory-module-routing.module';
 import { InventoryModuleComponent } from './inventory-module.component';
@@ -32,7 +33,8 @@ import { AdminModule } from '../admin.module';
     CheckboxModule,
     InputMaskModule,
     InputSwitchModule,
-    TableModule
+    TableModule,
+    TooltipModule
   ]
 })
 export class InventoryModuleModule { }
