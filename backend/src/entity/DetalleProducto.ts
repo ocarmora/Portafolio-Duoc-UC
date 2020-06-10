@@ -7,14 +7,21 @@ export class DetalleProducto {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    sku: number;
+    @Column({
+      length: 17
+    })
+    sku: string;
 
     @Column()
     stock: number;
 
-    @Column()
+    @Column({
+      nullable: true
+    })
     fechaVencimiento: string;
+
+    @Column()
+    precioCompra: number;
 
     @ManyToOne(type => Producto, Producto => Producto.id)
     producto: Producto;

@@ -163,4 +163,10 @@ export const Routes = [
     controller: InventoryController,
     action: "create"
   },
+  {
+    method: "get",
+    route: "inventory",
+    controller: InventoryController,
+    action: "getAll"
+  }
 ];

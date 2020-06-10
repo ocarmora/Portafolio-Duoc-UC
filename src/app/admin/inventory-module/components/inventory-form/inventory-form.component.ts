@@ -230,10 +230,42 @@ export class InventoryFormComponent implements OnInit {
   }
 
   sendForm(){
+
+    let needExpirationDate: boolean = false;
+
+    // Validate expiration date required
+    this.orderSelected.detalle.forEach(element => {
+      if(element.producto.tieneVencimiento){
+        if(Array.isArray(element.detalleFechasVencimiento)){
+          if(element.detalleFechasVencimiento.length > 0){
+            return;
+          }else{
+            needExpirationDate = true;
+          }
+        }else{
+          needExpirationDate = true;
+        }
+      }
+    });
+
+    if(needExpirationDate){
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Datos incompletos',
+        text: 'Ingresa la fecha de vencimiento de los productos que corresponden',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+        confirmButtonText: 'Entendido'
+      });
+    }
+
+    // Validate VB checked
     if(this.orderSelected.detalle.length !== this.productCheck.length){
       Swal.fire({
         icon: 'error',
-        title: 'Falló el ingreso',
+        title: 'Falta aprobación',
         text: 'Debes dar VB a todos los productos que ingresan',
         customClass: {
           confirmButton: 'btn btn-primary',

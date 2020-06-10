@@ -24,7 +24,7 @@ export class OrderListComponent implements OnInit {
         let total: number = 0;
 
         element.detalle.forEach(product => {
-          let subtotal = product.cantidad * product.producto.precioNeto;
+          let subtotal = product.cantidad * product.precioCompra;
           total += subtotal;
         });
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { InventoryService } from '../../services/inventory.service';
 
 @Component({
   selector: 'app-inventory-list',
@@ -9,9 +10,16 @@ export class InventoryListComponent implements OnInit {
 
   inventory: any = [];
 
-  constructor() { }
+  constructor(private _inventoryService: InventoryService) { }
 
   ngOnInit(): void {
+    this.getInventory();
+  }
+
+  getInventory(){
+    this._inventoryService.getAll().subscribe(result => {
+      this.inventory = result;
+    });
   }
 
 }

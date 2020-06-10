@@ -17,6 +17,9 @@ export class DetalleOrdenDeCompra {
   @ManyToOne(type => OrdenDeCompra, ordenDeCompra => ordenDeCompra.detalle)
   ordenDeCompra: OrdenDeCompra;
 
+  @Column()
+  precioCompra: number;
+
   @Column({
     default: 1
   })

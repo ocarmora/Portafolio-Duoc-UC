@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
-
+import {CheckboxModule} from 'primeng/checkbox';
 
 
 import { ProductModuleRoutingModule } from './product-module-routing.module';
@@ -41,7 +41,8 @@ import { AdminModule } from '../admin.module';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
-    AdminModule
+    AdminModule,
+    CheckboxModule
   ]
 })
 export class ProductModuleModule { }

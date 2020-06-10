@@ -95,7 +95,7 @@
             <tr>
               <th scope="col">Descripción</th>
               <th scope="col">Cantidad</th>
-              <th scope="col">Precio neto</th>
+              <th scope="col">Precio unitario</th>
               <th scope="col">Subtotal</th>
             </tr>
           </thead>
@@ -103,8 +103,8 @@
             <tr *ngFor="let item of order.detalle">
               <td>{{ item.producto.descripcion}}</td>
               <td>{{ item.cantidad}}</td>
-              <td>{{ item.producto.precioNeto | currency:'CLP'}}</td>
-              <td>{{ item.producto.precioNeto * item.cantidad | currency:'CLP' }}</td>
+              <td>{{ item.precioCompra | currency:'CLP' }}</td>
+              <td>{{ item.precioCompra * item.cantidad | currency:'CLP' }}</td>
             </tr>
             <tr class="font-weight-bold">
               <th scope="row" colspan="2"></th>

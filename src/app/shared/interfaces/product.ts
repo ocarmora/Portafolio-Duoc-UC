@@ -8,6 +8,7 @@ export interface Product {
   precioNeto: number,
   stockCritico: number,
   activo: number,
+  tieneVencimiento: boolean,
   proveedor: User,
   categoriaProducto: ProductCategory
 }

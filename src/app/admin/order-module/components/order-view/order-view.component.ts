@@ -33,7 +33,7 @@ export class OrderViewComponent implements OnInit {
         this.order = result;
 
         result.detalle.forEach(element => {
-          this.orderSubTotal += (element.cantidad * element.producto.precioNeto);
+          this.orderSubTotal += (element.cantidad * element.precioCompra);
         });
 
         this.orderTax = this.orderSubTotal * 0.19;

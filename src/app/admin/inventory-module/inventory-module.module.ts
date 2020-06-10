@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputMaskModule} from 'primeng/inputmask';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {TableModule} from 'primeng/table';
 
 import { InventoryModuleRoutingModule } from './inventory-module-routing.module';
 import { InventoryModuleComponent } from './inventory-module.component';
@@ -30,7 +31,8 @@ import { AdminModule } from '../admin.module';
     ReactiveFormsModule,
     CheckboxModule,
     InputMaskModule,
-    InputSwitchModule
+    InputSwitchModule,
+    TableModule
   ]
 })
 export class InventoryModuleModule { }

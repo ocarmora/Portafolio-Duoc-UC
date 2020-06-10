@@ -5,6 +5,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {InputMaskModule} from 'primeng/inputmask';
 
 
 import { OrderModuleRoutingModule } from './order-module-routing.module';
@@ -34,7 +35,8 @@ import { OrderViewComponent } from './components/order-view/order-view.component
     DropdownModule,
     FormsModule,
     ReactiveFormsModule,
-    MultiSelectModule
+    MultiSelectModule,
+    InputMaskModule
   ]
 })
 export class OrderModuleModule { }

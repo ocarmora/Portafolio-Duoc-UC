@@ -5,6 +5,7 @@ import { firstLetterCapitalize, Toast, SwalConfirm } from 'src/app/shared/util';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { PaymentMethodService } from 'src/app/shared/services/payment-method.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-form',
@@ -85,6 +86,34 @@ export class OrderFormComponent implements OnInit {
   }
 
   sendData(){
+
+    let isValid: boolean = true;
+
+    this.orderProducts.forEach(element => {
+
+      if(!element.precioUnidad){
+        isValid = false;
+      }
+
+      if(!isValid){
+        Swal.fire({
+          icon:'warning',
+          title: 'Solicitud incompleta',
+          text: 'Debes ingresar el precio de compra de todos los productos',
+          customClass: {
+            confirmButton: 'btn btn-primary'
+          },
+          buttonsStyling: false,
+          confirmButtonText: 'Entendido'
+        });
+      }
+      return;
+    });
+
+    if(!isValid){
+      return;
+    }
+
     let data = {
       comentario: this.orderCommentary,
       pagoFacturaDias: this.orderPaymentDay,

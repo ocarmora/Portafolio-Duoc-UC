@@ -20,10 +20,11 @@
     <table class="table mt-3" *ngIf="orderProducts.length > 0">
       <thead>
         <tr>
-          <th scope="col" width="10%">ID</th>
-          <th scope="col" width="50%">Detalle</th>
+          <th scope="col" width="5%">ID</th>
+          <th scope="col" width="45%">Detalle</th>
           <th scope="col" width="15%">Categoría</th>
           <th scope="col" width="15%">Cantidad</th>
+          <th scope="col" width="20%">Precio unidad</th>
           <th scope="col" width="10%">Quitar</th>
         </tr>
       </thead>
@@ -34,6 +35,14 @@
           <td>{{ item.producto.categoriaProducto.categoria | titlecase }}</td>
           <td>
             <input type="number" class="form-control col-sm-12 col-md-8" min="1" [(ngModel)]="item.cantidad">
+          </td>
+          <td>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">$</div>
+              </div>
+              <input type="text" class="form-control col-sm-12 col-md-8" required [(ngModel)]="item.precioUnidad">
+            </div>
           </td>
           <td><button class="btn btn-danger-outline btn-circle text-danger" (click)="removeElementFromOrder(item.id)"><i class="pi pi-times-circle"></i></button></td>
         </tr>

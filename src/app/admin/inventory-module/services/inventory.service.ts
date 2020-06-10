@@ -12,4 +12,9 @@ export class InventoryService {
   create(order: any){
     return this._http.post(environment.API_PATH + 'inventory', order);
   }
+
+  getAll(){
+    return this._http.get(environment.API_PATH + 'inventory');
+  }
+
 }

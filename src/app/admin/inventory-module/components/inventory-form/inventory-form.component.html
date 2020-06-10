@@ -26,7 +26,8 @@
             <td>{{ product.producto.descripcion }}</td>
             <td>{{ product.cantidad }}</td>
             <td>
-              <button type="button" class="btn btn-outline-primary" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id) && !(product.detalleFechasVencimiento && product.detalleFechasVencimiento.length)">{{ (product.detalleFechasVencimiento) && product.detalleFechasVencimiento.length ? 'Ver fechas' : 'Ingresar fechas' }}</button>
+              <span class="text-muted" *ngIf="!product.producto.tieneVencimiento">Este producto no vence</span>
+              <button *ngIf="product.producto.tieneVencimiento" type="button" class="btn btn-outline-primary" (click)="expirationDateModal(i)" [disabled]="productCheck.includes(product.id) && !(product.detalleFechasVencimiento && product.detalleFechasVencimiento.length)">{{ (product.detalleFechasVencimiento) && product.detalleFechasVencimiento.length ? 'Ver fechas' : 'Ingresar fechas' }}</button>
             </td>
             <td>
               <p-checkbox name="groupname" [value]="product.id" [(ngModel)]="productCheck"></p-checkbox>

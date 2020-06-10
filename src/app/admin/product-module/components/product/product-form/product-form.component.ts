@@ -30,6 +30,7 @@ export class ProductFormComponent implements OnInit {
     codigoDeBarra: new FormControl('', Validators.required),
     precioNeto: new FormControl('', Validators.required),
     stockCritico: new FormControl('', Validators.required),
+    tieneVencimiento: new FormControl('', Validators.required),
     proveedor: new FormControl('', Validators.required),
     categoriaProducto: new FormControl('', Validators.required),
     descripcion: new FormControl('', Validators.required),
@@ -52,6 +53,7 @@ export class ProductFormComponent implements OnInit {
           precioNeto: result.precioNeto,
           stockCritico: result.stockCritico,
           proveedor: result.proveedor,
+          tieneVencimiento: result.tieneVencimiento,
           categoriaProducto: result.categoriaProducto,
           descripcion: result.descripcion
         });

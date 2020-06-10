@@ -19,6 +19,7 @@ export class OrderController {
       .leftJoinAndSelect('orders.historial', 'historial')
       .leftJoinAndSelect('orders.proveedor', 'proveedor')
       .leftJoinAndSelect('detalle.producto', 'producto')
+      .leftJoinAndSelect('producto.categoriaProducto', 'categoria')
       .getOne()
       .then(result => {
         if(!result){
@@ -86,6 +87,7 @@ export class OrderController {
         let orderDetail = new DetalleOrdenDeCompra();
         orderDetail.cantidad = product.cantidad;
         orderDetail.producto = product.producto;
+        orderDetail.precioCompra = product.precioUnidad;
         orderDetail.ordenDeCompra = order;
         this.orderDetailRepository.save(orderDetail);
       });

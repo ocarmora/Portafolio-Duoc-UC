@@ -17,22 +17,20 @@ export class InventoryCreateComponent implements OnInit {
 
   create(orderValues: any){
 
-    // console.log(orderValues);
-
-    // Subcsribe to service here
+    //Subcsribe to service here
     this._inventoryService.create(orderValues).subscribe(result => {
-      console.log(result);
+
+      Toast.fire({
+        icon: 'success',
+        titleText: 'Productos ingresados'
+      });
+
+      this._router.navigate(['/admin/inventario']);
+
     }, (error) => {
       console.log(error);
     });
 
-
-    // Toast.fire({
-    //   icon: 'success',
-    //   titleText: 'Productos ingresados'
-    // });
-
-    // this._router.navigate(['/admin/inventario']);
 
 
   }
