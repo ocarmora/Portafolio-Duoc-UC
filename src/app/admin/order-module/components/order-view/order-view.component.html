@@ -1,10 +1,47 @@
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Historial de cambios</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table" *ngIf="order">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Detalle</th>
+              <th>Usuario</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let history of order.historial">
+              <td>{{ history.fecha }}</td>
+              <td>{{ history.detalle }}</td>
+              <td>{{ history.usuario.detalle.nombre + ' ' + history.usuario.detalle.apellido }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="row" *ngIf="order">
-    <div class="col-sm-12 pl-0">
-      <button class="btn btn-secondary mr-1" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
-      <button class="btn btn-outline-primary ml-1" (click)="onExportPDFClick()"><i class="pi pi-download mr-1"></i>Descargar</button>
-      <button class="btn btn-outline-danger ml-1" *ngIf="!(order.activo == 0 || order.activo == 2)" (click)="cancelOrder(order.id)"><i class="pi pi-minus mr-1"></i> Anular</button>
-      <button class="btn btn-outline-info ml-1" [routerLink]="['/admin/inventario/ingresar/' + order.id]" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check mr-1"></i> Recibir</button>
+    <div class="col-sm-12 pl-0 pr-0">
+      <button class="btn btn-secondary" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
+      <div class="btn-group float-right" role="group" aria-label="Basic example">
+        <button class="btn btn-outline-primary" (click)="onExportPDFClick()"><i class="pi pi-download"></i> PDF</button>
+        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal"><i class="pi pi-clock"></i> Historial</button>
+        <button class="btn btn-outline-primary" *ngIf="!(order.activo == 0 || order.activo == 2)" (click)="cancelOrder(order.id)"><i class="pi pi-times"></i> Anular</button>
+        <button class="btn btn-outline-primary" [routerLink]="['/admin/inventario/ingresar/' + order.id]" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check"></i> Recibir</button>
+      </div>
     </div>
   </div>
 </div>

@@ -19,13 +19,14 @@ export class ProductCategoryListComponent implements OnInit {
   }
 
   getProductCategories(){
-    this._productCategoryService.getAll().subscribe((result: ProductCategory[]) => {
+    this._productCategoryService.getAll().subscribe((result: any) => {
       this.productCategories = [];
       let obj: any;
       result.forEach(element => {
         obj = {
           id: element.id,
-          categoria: firstLetterCapitalize(element.categoria)
+          categoria: firstLetterCapitalize(element.categoria),
+          productos: element.productos
         }
         this.productCategories.push(obj);
       });

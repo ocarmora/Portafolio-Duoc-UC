@@ -34,15 +34,15 @@
             <tr>
               <th scope="col" width="10%">ID</th>
               <th scope="col">Nombre</th>
-              <!-- <th scope="col">Productos asignados</th> -->
+              <th scope="col">Productos asignados</th>
               <th scope="col" width="10%">Administrar</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-productCategory>
           <tr>
-            <td scope="row">{{productCategory.id}}</td>
-            <td>{{productCategory.categoria}}</td>
-            <!-- <td>76</td> -->
+            <td scope="row">{{ productCategory.id }}</td>
+            <td>{{ productCategory.categoria }}</td>
+            <td>{{ productCategory.productos }}</td>
             <td>
               <button type="button" class="btn btn-outline-secondary btn-circle m-1" [routerLink]="['editar/' + productCategory.id]"><i class="pi pi-pencil"></i></button>
               <button type="button" class="btn btn-outline-danger btn-circle m-1" (click)="confirmDelete(productCategory.id)"><i class="pi pi-trash"></i></button>

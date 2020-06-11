@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +33,14 @@ export class OrderService {
     return this._http.post(environment.API_PATH + 'orders', data);
   }
 
-  cancel(id: number){
-    return this._http.delete(environment.API_PATH + 'orders/' + id);
+  cancel(data: any){
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this._http.delete(environment.API_PATH + 'orders', options);
   }
 
 }

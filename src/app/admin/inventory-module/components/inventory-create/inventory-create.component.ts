@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Toast } from 'src/app/shared/util';
 import { Router } from '@angular/router';
 import { InventoryService } from '../../services/inventory.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-inventory-create',
@@ -30,8 +31,6 @@ export class InventoryCreateComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
-
-
 
   }
 

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import * as Moment from 'moment';
 import { SwalConfirm, Toast } from 'src/app/shared/util';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 declare var $: any;
 
@@ -15,6 +16,8 @@ declare var $: any;
   styleUrls: ['./inventory-form.component.css']
 })
 export class InventoryFormComponent implements OnInit {
+
+  currentUser: any;
 
   @Output()
   sendFormEvent = new EventEmitter();
@@ -30,15 +33,23 @@ export class InventoryFormComponent implements OnInit {
     date: '',
   };
 
-  constructor(private _orderService: OrderService, private _activatedRoute: ActivatedRoute, private _router: Router) { }
+  constructor(private _orderService: OrderService, private _activatedRoute: ActivatedRoute, private _router: Router, private _authService: AuthService) { }
 
   ngOnInit(): void {
+    this.getCurrentUser()
     this.getOpenOrders();
 
     $('#expirationDateModal').on('hide.bs.modal', (e) => {
       this.checkExpiratioDates(e);
     });
 
+  }
+
+  getCurrentUser(){
+    const token = this._authService.getToken();
+    this._authService.getCurrentUser(token).subscribe((result: Object) => {
+      this.currentUser = result;
+    });
   }
 
   getOpenOrders(){
@@ -273,7 +284,8 @@ export class InventoryFormComponent implements OnInit {
     let formData = {
       id: this.orderSelected.id,
       detalle: this.orderSelected.detalle,
-      proveedorId: this.orderSelected.proveedor.id
+      proveedorId: this.orderSelected.proveedor.id,
+      usuario: this.currentUser
     }
 
     SwalConfirm.fire({

@@ -5,6 +5,7 @@ import { Order } from 'src/app/shared/interfaces/order';
 import { SwalConfirm, Toast } from 'src/app/shared/util';
 import { BusinessService } from 'src/app/shared/services/business.service';
 import * as html2pdf from 'html2pdf.js';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-order-view',
@@ -18,12 +19,14 @@ export class OrderViewComponent implements OnInit {
   orderTax: number;
   orderTotal: number;
   businessInfo: any;
+  currentUser: any;
 
-  constructor(private _activatedRoute: ActivatedRoute, private _orderService: OrderService, private _businessService: BusinessService) { }
+  constructor(private _activatedRoute: ActivatedRoute, private _orderService: OrderService, private _businessService: BusinessService, private _authService: AuthService) { }
 
   ngOnInit(): void {
     this.getOrderDetail();
     this.getBusinessInfo();
+    this.getCurrentUser();
   }
 
   getOrderDetail(){
@@ -49,6 +52,13 @@ export class OrderViewComponent implements OnInit {
     })
   }
 
+  getCurrentUser(){
+    const token = this._authService.getToken();
+    this._authService.getCurrentUser(token).subscribe((result: Object) => {
+      this.currentUser = result;
+    });
+  }
+
   cancelOrder(id: number){
     SwalConfirm.fire({
       title: 'Confirmar Anulación',
@@ -56,7 +66,11 @@ export class OrderViewComponent implements OnInit {
       confirmButtonText: 'Anular OC'
     }).then(result => {
       if(result.value){
-        this._orderService.cancel(id).subscribe(result => {
+        let data = {
+          orderId: id,
+          user: this.currentUser
+        }
+        this._orderService.cancel(data).subscribe(result => {
           Toast.fire({
             icon: 'info',
             titleText: 'Ordem de compra anulada'

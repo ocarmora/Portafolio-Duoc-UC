@@ -25,7 +25,7 @@
             <i class="pi pi-search"></i>
           </span>
         </div>
-        <input type="text" class="form-control" placeholder="Busca por ID, proveedor o estado" (input)="tt.filterGlobal($event.target.value, 'contains')">
+        <input type="text" class="form-control" placeholder="Búsqueda por código de barra" (input)="tt.filterGlobal($event.target.value, 'contains')">
       </div>
     </div>
 
@@ -36,7 +36,7 @@
 
   <div class="row mt-4">
     <div class="col-sm-12">
-      <p-table #tt [styleClass]="'shadow'"  [value]="inventory">
+      <p-table #tt [styleClass]="'shadow'" [globalFilterFields]="['codigoDeBarra']" [value]="inventory">
         <ng-template pTemplate="header">
             <tr>
                 <th width="15%">Codigo de barra</th>
