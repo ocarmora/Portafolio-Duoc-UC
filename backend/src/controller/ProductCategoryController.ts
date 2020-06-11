@@ -7,7 +7,28 @@ export class ProductCategoryController {
   private repository = getRepository(CategoriaProducto);
 
   async all(request: Request, response: Response, next: NextFunction){
-    return this.repository.find({where: {activo: 1}});
+    const result = [];
+    const fetched =  await this.repository
+      .createQueryBuilder('c')
+      .leftJoin('producto', 'p', 'p.categoriaProductoId = c.id')
+      .addSelect('COUNT(p.id)', 'productos')
+      .where('c.activo = 1')
+      .where('p.activo = 1')
+      .groupBy('c.id')
+      .getRawMany();
+
+    fetched.forEach(element => {
+      let obj = {
+        id: element.c_id,
+        categoria: element.c_categoria,
+        productos: element.productos
+      }
+      result.push(obj);
+    });
+
+    //return response.status(200).send(fetched);
+
+    response.status(200).send(result);
   }
 
   async save(request: Request, response: Response, next: NextFunction){

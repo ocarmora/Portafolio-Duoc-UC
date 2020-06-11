@@ -133,7 +133,7 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "orders/:id",
+    route: "orders",
     controller: OrderController,
     action: "remove"
   },

@@ -25,6 +25,11 @@ export class Producto {
     @Column()
     tieneVencimiento: boolean;
 
+    @Column({
+      default: 0
+    })
+    stock: number;
+
     @OneToMany(type => DetalleOrdenDeCompra, detalleOrdenDeCompra => detalleOrdenDeCompra.producto)
     detalleOrdenDeCompra: DetalleOrdenDeCompra[]
 

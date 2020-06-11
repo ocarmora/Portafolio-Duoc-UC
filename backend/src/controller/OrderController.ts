@@ -4,6 +4,7 @@ import {OrdenDeCompra} from "../entity/OrdenDeCompra";
 import {HistorialOrdenDeCompra} from "../entity/HistorialOrdenDeCompra";
 import {DetalleOrdenDeCompra} from "../entity/DetalleOrdenDeCompra";
 import { Producto } from "../entity/Producto";
+import * as Moment from "moment";
 
 export class OrderController {
 
@@ -20,6 +21,7 @@ export class OrderController {
       .leftJoinAndSelect('orders.proveedor', 'proveedor')
       .leftJoinAndSelect('detalle.producto', 'producto')
       .leftJoinAndSelect('producto.categoriaProducto', 'categoria')
+      .leftJoinAndSelect('historial.usuario', 'usuario')
       .getOne()
       .then(result => {
         if(!result){
@@ -93,11 +95,10 @@ export class OrderController {
       });
 
       // Order History
-      let date = new Date();
       let orderHistory = new HistorialOrdenDeCompra();
 
       orderHistory.detalle = 'Orden de compra generada';
-      orderHistory.fecha = date.toLocaleDateString();
+      orderHistory.fecha = Moment().format('DD/MM/YYYY');
       orderHistory.ordenDeCompra = order;
       orderHistory.usuario = request.body.usuario;
 
@@ -112,10 +113,21 @@ export class OrderController {
   }
 
   async remove(request: Request, response: Response, next: NextFunction){
-    this.orderRepository.findOne({where: {id: request.params.id}}).then(async result => {
+    this.orderRepository.findOne({where: {id: request.body.orderId}}).then(async result => {
       const orderToDelete = result;
       orderToDelete.activo = 0;
       await this.orderRepository.save(orderToDelete);
+
+      // Update detail order
+      let orderHistory = {
+        detalle: 'Orden de compra anulada',
+        fecha: Moment().format('DD/MM/YYYY'),
+        ordenDeCompra: orderToDelete,
+        usuario: request.body.user
+      }
+
+      await this.orderHistoryRepository.save(orderHistory);
+
       return response.status(200).end();
     }).catch(error => {
       return response.status(500).json(error);

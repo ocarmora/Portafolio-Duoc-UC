@@ -1,14 +1,18 @@
-import {getRepository, createQueryBuilder} from "typeorm";
+import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {DetalleProducto} from "../entity/DetalleProducto";
 import { pad } from "../Utilities";
 import { OrdenDeCompra } from "../entity/OrdenDeCompra";
 import { Producto } from "../entity/Producto";
+import { HistorialOrdenDeCompra } from "../entity/HistorialOrdenDeCompra";
+import * as Moment from "moment";
+
 
 export class InventoryController {
 
   private detailProductRepository = getRepository(DetalleProducto);
   private orderRepository = getRepository(OrdenDeCompra);
+  private orderHistoryRepository = getRepository(HistorialOrdenDeCompra);
 
   async getAll(request: Request, response: Response, next: NextFunction){
 
@@ -60,6 +64,7 @@ export class InventoryController {
 
     const providerId = request.body.proveedorId;
     const orderId = request.body.id;
+    const user = request.body.usuario
 
     let expirationDate: string;
     let sku: any;
@@ -109,9 +114,20 @@ export class InventoryController {
     this.detailProductRepository.save(detailsToSave)
     .then(async () => {
 
+      // Update order
       let order = await this.orderRepository.findOne(orderId);
       order.activo = 2;
       await this.orderRepository.save(order);
+
+      // Update detail order
+      let orderHistory = {
+        detalle: 'Orden de compra ingresada a inventario',
+        fecha: Moment().format('DD/MM/YYYY'),
+        ordenDeCompra: order,
+        usuario: user
+      }
+
+      await this.orderHistoryRepository.save(orderHistory);
 
       response.status(200).end();
 
