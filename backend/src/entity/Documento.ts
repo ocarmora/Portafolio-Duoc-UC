@@ -20,7 +20,7 @@ export class Documento {
     @ManyToOne(type => TipoDocumento, TipoDocumento => TipoDocumento.id)
     tipoDocumento: TipoDocumento;
 
-    @ManyToOne(type => Usuario, Usuario => Usuario.id)
+    @ManyToOne(type => Usuario, Usuario => Usuario.id, {nullable: true})
     cliente: Usuario;
 
     @Column({

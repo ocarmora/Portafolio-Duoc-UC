@@ -12,3 +12,8 @@ export function pad(n: any, width: number, z?: string) {
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
+
+export const firstLetterCapitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}

@@ -9,6 +9,9 @@ const routes: Routes = [
   { path: 'productos', loadChildren: () => import('./product-module/product-module.module').then(m => m.ProductModuleModule), canActivate: [AuthGuard] },
   { path: 'ordenes-de-compra', loadChildren: () => import('./order-module/order-module.module').then(m => m.OrderModuleModule), canActivate: [AuthGuard] },
   { path: 'inventario', loadChildren: () => import('./inventory-module/inventory-module.module').then(m => m.InventoryModuleModule) },
+  { path: 'ventas', loadChildren: () => import('./sale-module/sale-module.module').then(m => m.SaleModuleModule) },
+  { path: 'usuarios', loadChildren: () => import('./user-module/user-module.module').then(m => m.UserModuleModule) },
+  { path: 'clientes', loadChildren: () => import('./customer-module/customer-module.module').then(m => m.CustomerModuleModule) },
 ];
 
 @NgModule({

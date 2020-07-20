@@ -21,12 +21,24 @@ export class OrderViewComponent implements OnInit {
   businessInfo: any;
   currentUser: any;
 
+  buttons: boolean = true;
+
   constructor(private _activatedRoute: ActivatedRoute, private _orderService: OrderService, private _businessService: BusinessService, private _authService: AuthService) { }
 
   ngOnInit(): void {
     this.getOrderDetail();
     this.getBusinessInfo();
     this.getCurrentUser();
+    this.initViewwer();
+
+  }
+
+  initViewwer(){
+    this._activatedRoute.data.subscribe(data => {
+      if(data['viewer']){
+        this.buttons = false;
+      }
+    })
   }
 
   getOrderDetail(){

@@ -6,6 +6,8 @@ import { OrderController } from "./controller/OrderController";
 import { PaymentMethodController } from "./controller/PaymentMethodController";
 import { BusinessController } from "./controller/BusinessController";
 import { InventoryController } from "./controller/InventoryController";
+import { DocumentTypeController } from "./controller/DocumentTypeController";
+import { SaleController } from "./controller/SaleController";
 
 export const Routes = [
   // Auth route: login
@@ -46,9 +48,39 @@ export const Routes = [
   },
   {
     method: "get",
+    route: "users/roles",
+    controller: UsuarioController,
+    action: "getRoles"
+  },
+  {
+    method: "get",
     route: "users/:id",
     controller: UsuarioController,
     action: "one"
+  },
+  {
+    method: "delete",
+    route: "users/:id",
+    controller: UsuarioController,
+    action: "deleteUser"
+  },
+  {
+    method: "post",
+    route: "users/:id",
+    controller: UsuarioController,
+    action: "edit"
+  },
+  {
+    method: "post",
+    route: "users",
+    controller: UsuarioController,
+    action: "create"
+  },
+  {
+    method: "get",
+    route: "users",
+    controller: UsuarioController,
+    action: "getAll"
   },
   // Product Category CRUD routes
   {
@@ -93,6 +125,18 @@ export const Routes = [
     route: "products",
     controller: ProductController,
     action: "save"
+  },
+  {
+    method: "get",
+    route: "products/barcode/:barcode",
+    controller: ProductController,
+    action: "oneByBarcode"
+  },
+  {
+    method: "get",
+    route: "products/sku/:sku",
+    controller: ProductController,
+    action: "oneBySku"
   },
   {
     method: "delete",
@@ -145,6 +189,12 @@ export const Routes = [
   },
   {
     method: "get",
+    route: "orders/pending",
+    controller: OrderController,
+    action: "pendingOrders"
+  },
+  {
+    method: "get",
     route: "orders/:id",
     controller: OrderController,
     action: "one"
@@ -168,5 +218,74 @@ export const Routes = [
     route: "inventory",
     controller: InventoryController,
     action: "getAll"
-  }
+  },
+  {
+    method: "get",
+    route: "inventory/:id/detail",
+    controller: InventoryController,
+    action: "getDetail"
+  },
+  {
+    method: "get",
+    route: "inventory/criticalStock",
+    controller: InventoryController,
+    action: "getCriticalStock"
+  },
+  // Document type CRUD routes
+  {
+    method: "get",
+    route: "document/types",
+    controller: DocumentTypeController,
+    action: "all"
+  },
+  {
+    // Client CRUD
+    method: "get",
+    route: "customers/:rut",
+    controller: UsuarioController,
+    action: "getCustomerDetail"
+  },
+  {
+    // Sale CRUD
+    method: "get",
+    route: "sales/helpers/payment-methods",
+    controller: SaleController,
+    action: "getSalePaymentMethods"
+  },
+  {
+    method: "get",
+    route: "sales/",
+    controller: SaleController,
+    action: "getAll"
+  },
+  {
+    method: "post",
+    route: "sales",
+    controller: SaleController,
+    action: "makeSale"
+  },
+  {
+    method: "get",
+    route: "sales/stats",
+    controller: SaleController,
+    action: "getStats"
+  },
+  {
+    method: "get",
+    route: "sales/last/:days",
+    controller: SaleController,
+    action: "getLastSales"
+  },
+  {
+    method: "get",
+    route: "sales/:year/stats",
+    controller: SaleController,
+    action: "getMonthlySales"
+  },
+  {
+    method: "get",
+    route: "sales/product/:year/:month/best",
+    controller: SaleController,
+    action: "bestSellingProduct"
+  },
 ];

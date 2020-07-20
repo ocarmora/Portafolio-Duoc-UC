@@ -1,2 +1,112 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <div class="alert alert-primary">
+
+        <h3 class="alert-heading">
+          {{ salesStats.total | currency:'CLP' }}
+        </h3>
+        <p *ngIf="salesStats.quantity > 1">Hoy se han realizado {{ salesStats.quantity }} ventas</p>
+        <p *ngIf="salesStats.quantity == 1">Hoy se ha realizado {{ salesStats.quantity }} venta</p>
+        <p *ngIf="salesStats.quantity == 0">No se ha realizado ninguna venta hoy<p>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-4">
+      <div class="alert alert-info" *ngIf="pendingOrders.total > 0">
+        <h3 class="alert-heading">
+          <i class="pi pi-file" style="font-size: 1em"></i>
+          {{ pendingOrders.total }}
+        </h3>
+        <p *ngIf="pendingOrders.total > 1">Ordenes de compra pendientes</p>
+        <p *ngIf="pendingOrders.total == 1">Orden de compra pendiente</p>
+      </div>
+      <div class="alert alert-success" *ngIf="pendingOrders.total == 0">
+        <h3 class="alert-heading"><i class="pi pi-check" style="font-size: 1em"></i> OC ingresadas</h3>
+        <p>No hay ordenes de compra pendientes</p>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-4">
+      <div class="alert alert-warning" *ngIf="crtiticalStock.total > 0">
+        <h3 class="alert-heading">
+          <i class="pi pi-exclamation-circle" style="font-size: 1em"></i>
+          {{ crtiticalStock.total }}
+        </h3>
+        <p *ngIf="crtiticalStock.total > 1">Productos con stock crítico</p>
+        <p *ngIf="crtiticalStock.total == 1">Producto con stock crítico</p>
+      </div>
+      <div class="alert alert-success" *ngIf="crtiticalStock.total == 0">
+        <h3 class="alert-heading"><i class="pi pi-check" style="font-size: 1em"></i> Inventario al día</h3>
+        <p>No hay productos con stock crítico</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">
+          Ventas de los últimos
+          <select class="form-control-sm" (change)="getLastSales($event.target.value)">
+            <option value="2">2 días</option>
+            <option value="3">3 días</option>
+            <option value="4">4 días</option>
+            <option value="5">5 días</option>
+            <option value="6">6 días</option>
+            <option value="7" selected>7 días</option>
+            <option value="14">14 días</option>
+            <option value="21">21 días</option>
+          </select>
+        </div>
+        <div class="card-body">
+
+          <div class="row text-muted text-center align-items-center h-100" *ngIf="!lastSales[0]">
+            <div class="col-sm-12">
+              <div class="div">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+              </div>
+              <div class="div mt-2">
+                <span>No hay ventas en los últimos días</span>
+              </div>
+            </div>
+          </div>
+          <table class="table table-sm" *ngIf="lastSales[0]">
+            <thead>
+              <th>Fecha</th>
+              <th>Total vendido</th>
+            </thead>
+            <tbody *ngFor="let day of lastSales">
+              <tr>
+                <td>{{ day.fecha }}</td>
+                <td>{{ day.total | currency:'CLP' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card h-100">
+        <div class="card-header">
+          Total ventas mensuales año
+          <select class="form-control-sm" (change)="getMonthlySales($event.target.value)">
+            <option value="2020">2020</option>
+          </select>
+        </div>
+        <div class="card-body">
+          <div class="row text-muted text-center align-items-center h-100" *ngIf="!salesData.datasets">
+            <div class="col-sm-12">
+              <div class="div">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+              </div>
+              <div class="div mt-2">
+                <span>No hay datos suficientes para generar un gráfico</span>
+              </div>
+            </div>
+          </div>
+          <p-chart type="line" [data]="salesData" *ngIf="salesData.datasets"></p-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

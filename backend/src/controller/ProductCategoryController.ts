@@ -13,7 +13,6 @@ export class ProductCategoryController {
       .leftJoin('producto', 'p', 'p.categoriaProductoId = c.id')
       .addSelect('COUNT(p.id)', 'productos')
       .where('c.activo = 1')
-      .where('p.activo = 1')
       .groupBy('c.id')
       .getRawMany();
 

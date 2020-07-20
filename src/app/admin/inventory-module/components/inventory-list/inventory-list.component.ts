@@ -9,6 +9,8 @@ import { InventoryService } from '../../services/inventory.service';
 export class InventoryListComponent implements OnInit {
 
   inventory: any = [];
+  inventoryDetail: any = [];
+  modalTitle: string;
 
   constructor(private _inventoryService: InventoryService) { }
 
@@ -20,6 +22,16 @@ export class InventoryListComponent implements OnInit {
     this._inventoryService.getAll().subscribe(result => {
       this.inventory = result;
     });
+  }
+
+  getInventoryDetail(productId: number){
+    this._inventoryService.getInventoryDetail(productId).subscribe(result => {
+      this.inventoryDetail = result;
+    })
+  }
+
+  openOrderViewer(orderId: number){
+    window.open("http://localhost:4200/admin/ordenes-de-compra/viewer/" + orderId, "Orden de compra Nº" + orderId, "width=1024, height=890,scrollbars=NO");
   }
 
 }

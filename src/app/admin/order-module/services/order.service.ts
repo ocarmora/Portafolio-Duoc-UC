@@ -43,4 +43,8 @@ export class OrderService {
     return this._http.delete(environment.API_PATH + 'orders', options);
   }
 
+  getPendingOrders(){
+    return this._http.get(environment.API_PATH + 'orders/pending');
+  }
+
 }

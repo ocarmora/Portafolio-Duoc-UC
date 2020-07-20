@@ -10,8 +10,10 @@ export class Producto {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    codigoDeBarra: number;
+    @Column({
+      length: 15
+    })
+    codigoDeBarra: string;
 
     @Column()
     descripcion: string;
@@ -24,11 +26,6 @@ export class Producto {
 
     @Column()
     tieneVencimiento: boolean;
-
-    @Column({
-      default: 0
-    })
-    stock: number;
 
     @OneToMany(type => DetalleOrdenDeCompra, detalleOrdenDeCompra => detalleOrdenDeCompra.producto)
     detalleOrdenDeCompra: DetalleOrdenDeCompra[]

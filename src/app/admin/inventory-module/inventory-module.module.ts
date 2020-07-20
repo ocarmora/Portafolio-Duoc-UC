@@ -15,6 +15,8 @@ import { InventoryFormComponent } from './components/inventory-form/inventory-fo
 import { InventoryCreateComponent } from './components/inventory-create/inventory-create.component';
 import { AdminModule } from '../admin.module';
 
+// Import ngx-barcode module
+import { NgxBarcode6Module } from 'ngx-barcode6';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { AdminModule } from '../admin.module';
     InputMaskModule,
     InputSwitchModule,
     TableModule,
-    TooltipModule
+    TooltipModule,
+    NgxBarcode6Module
   ]
 })
 export class InventoryModuleModule { }

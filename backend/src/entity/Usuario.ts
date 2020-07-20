@@ -24,6 +24,11 @@ export class Usuario {
     @Column({
       default: 1
     })
+    habilitado: boolean
+
+    @Column({
+      default: 1
+    })
     activo: number;
 
 }

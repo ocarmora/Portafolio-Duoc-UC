@@ -30,10 +30,10 @@ export class ProductFormComponent implements OnInit {
     codigoDeBarra: new FormControl('', Validators.required),
     precioNeto: new FormControl('', Validators.required),
     stockCritico: new FormControl('', Validators.required),
-    tieneVencimiento: new FormControl('', Validators.required),
+    tieneVencimiento: new FormControl(false, Validators.required),
     proveedor: new FormControl('', Validators.required),
     categoriaProducto: new FormControl('', Validators.required),
-    descripcion: new FormControl('', Validators.required),
+    descripcion: new FormControl('', Validators.required)
   });
 
   constructor(private _productCategoryService: ProductCategoryService, private _productService: ProductService, private _router: Router) { }
@@ -55,7 +55,7 @@ export class ProductFormComponent implements OnInit {
           proveedor: result.proveedor,
           tieneVencimiento: result.tieneVencimiento,
           categoriaProducto: result.categoriaProducto,
-          descripcion: result.descripcion
+          descripcion: result.descripcion,
         });
       }, () => {
         return this._router.navigate(['404']);

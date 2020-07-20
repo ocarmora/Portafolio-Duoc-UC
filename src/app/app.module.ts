@@ -6,6 +6,7 @@ import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import localeCL from '@angular/common/locales/es-CL'
 
+import { NgxBarcodeModule } from 'ngx-barcode';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './shared/components/login/login.component';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
@@ -30,6 +31,7 @@ registerLocaleData(localeCL, 'es-CL');
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    NgxBarcodeModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

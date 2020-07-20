@@ -20,9 +20,6 @@ export class DetalleProducto {
     })
     fechaVencimiento: string;
 
-    @Column()
-    precioCompra: number;
-
     @ManyToOne(type => Producto, Producto => Producto.id)
     producto: Producto;
 

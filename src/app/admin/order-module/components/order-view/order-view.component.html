@@ -1,7 +1,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="buttons">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -33,14 +33,14 @@
 </div>
 
 <div class="container">
-  <div class="row" *ngIf="order">
+  <div class="row mt-3" *ngIf="order">
     <div class="col-sm-12 pl-0 pr-0">
-      <button class="btn btn-secondary" [routerLink]="['/admin/ordenes-de-compra']"><i class="pi pi-arrow-left"></i></button>
+      <button class="btn btn-secondary" [routerLink]="['/admin/ordenes-de-compra']" *ngIf="buttons"><i class="pi pi-arrow-left"></i></button>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <button class="btn btn-outline-primary" (click)="onExportPDFClick()"><i class="pi pi-download"></i> PDF</button>
-        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal"><i class="pi pi-clock"></i> Historial</button>
-        <button class="btn btn-outline-primary" *ngIf="!(order.activo == 0 || order.activo == 2)" (click)="cancelOrder(order.id)"><i class="pi pi-times"></i> Anular</button>
-        <button class="btn btn-outline-primary" [routerLink]="['/admin/inventario/ingresar/' + order.id]" *ngIf="!(order.activo == 0 || order.activo == 2)"><i class="pi pi-check"></i> Recibir</button>
+        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" *ngIf="buttons"><i class="pi pi-clock"></i> Historial</button>
+        <button class="btn btn-outline-primary" *ngIf="!(order.activo == 0 || order.activo == 2) && buttons" (click)="cancelOrder(order.id)"><i class="pi pi-times"></i> Anular</button>
+        <button class="btn btn-outline-primary" [routerLink]="['/admin/inventario/ingresar/' + order.id]" *ngIf="!(order.activo == 0 || order.activo == 2) && buttons"><i class="pi pi-check"></i> Recibir</button>
       </div>
     </div>
   </div>

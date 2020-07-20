@@ -48,3 +48,8 @@ body label.ui-inputtext {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+.dashboard-stats{
+  width: 100%;
+  padding: 5px;
+}

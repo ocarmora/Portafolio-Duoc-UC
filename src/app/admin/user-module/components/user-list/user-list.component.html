@@ -1,0 +1,54 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-12 mb-4">
+      <h1 class="h3">Usuarios registrados</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-search"></i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Busca por RUT o tipo de usuario" (input)="tt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary float-right" role="button" [routerLink]="['nuevo']"><i class="pi pi-plus"></i> Nueva usuario</button>
+    </div>
+
+    <div class="col-sm-12 mt-4">
+
+      <p-table #tt [value]="users" [styleClass]="'shadow'" [globalFilterFields]="['rut', 'tipoUsuario']" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+              <th scope="col" class="text-center">Perfil</th>
+              <th scope="col" class="text-center">RUT</th>
+              <th scope="col" class="text-center">Nombre</th>
+              <th scope="col" class="text-center">Tiene acceso</th>
+              <th scope="col" class="text-center">Acción</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td>{{ user.tipoUsuario}}</td>
+            <td>{{ user.rut}}</td>
+            <td>{{ user.apellido ? user.nombre + ' ' + user.apellido: user.nombre}}</td>
+            <td class="text-center">
+              <span class="badge badge-pill badge-success" *ngIf="user.tieneAcceso">Habilitado</span>
+              <span class="badge badge-pill badge-danger" *ngIf="!user.tieneAcceso">Inhabilitado</span>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-outline-warning btn-circle" [routerLink]="'editar/' + user.id"><i class="pi pi-user-edit"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

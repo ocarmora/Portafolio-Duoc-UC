@@ -1,0 +1,98 @@
+<form [formGroup]="form" class="form" (submit)="sendForm()">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <h4 class="h4">Perfil de usuario</h4><br>
+      <label for=""><sup class="text-danger">*</sup> Selecciona un tipo de perfil para este usuario</label>
+      <p-dropdown [styleClass]="'form-control'" [placeholder]="'Seleccionar'" [options]="userRoleList" formControlName="role"></p-dropdown>
+    </div>
+  </div>
+
+  <div class="border-top my-3"></div>
+
+  <div>
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        <h4 class="h4">Información personal</h4>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="name"><sup class="text-danger">*</sup> Nombre:</label>
+        <input id="name" name="name" type="text" class="form-control" formControlName="name">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="secondName"><sup class="text-danger">*</sup> Segundo nombre:</label>
+        <input id="secondName" name="secondName" type="text" class="form-control" formControlName="secondName">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="lastName"><sup class="text-danger">*</sup> Apellido paterno:</label>
+        <input id="lastName" name="lastName" type="text" class="form-control" formControlName="lastName">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="secondLastName"><sup class="text-danger">*</sup> Apellido materno:</label>
+        <input id="secondLastName" name="secondLastName" type="text" class="form-control" formControlName="secondLastName">
+      </div>
+    </div>
+  </div>
+
+  <div class="border-top my-3"></div>
+
+  <!-- Información de inicio de sesión -->
+  <div class="form-row">
+    <div class="form-group col-sm-12">
+      <h4 class="h4">Inicio de sesión</h4>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="rut"><sup class="text-danger">*</sup> RUT: </label>
+      <input type="text" name="rut" id="rut" class="form-control" formControlName="rut">
+    </div>
+
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="password"><sup class="text-danger" *ngIf="formType !== 'edit'">*</sup> Contraseña:</label>
+      <div class="input-group">
+        <input #p id="password" name="password" type="password" class="form-control" formControlName="password" (keyup)="confirmPassword(cP)">
+        <div class="input-group-append">
+          <button role="button" class="btn btn-secondary" (click)="(p.type == 'password') ? p.type = 'text': p.type = 'password'">
+            <i class="pi pi-eye" *ngIf="p.type == 'password'"></i>
+            <i class="pi pi-eye-slash" *ngIf="p.type == 'text'"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="confirmPassword"><sup class="text-danger" *ngIf="formType !== 'edit'">*</sup> Repetir contraseña:</label>
+      <div class="input-group">
+        <input #cP id="confirmPassword" name="confirmPassword" type="password" class="form-control" formControlName="confirmPassword" (keyup)="confirmPassword(cP)">
+        <div class="input-group-append">
+          <button role="button" type="button" class="btn btn-secondary" (click)="(cP.type == 'password') ? cP.type = 'text': cP.type = 'password'">
+            <i class="pi pi-eye" *ngIf="cP.type == 'password'"></i>
+            <i class="pi pi-eye-slash" *ngIf="cP.type == 'text'"></i>
+          </button>
+        </div>
+      </div>
+      <small class="form-text text-danger" *ngIf="!passwordMatch && cP.value">Las contraseñas no coinciden</small>
+    </div>
+    <div class="form-group col-sm-12">
+      <label for=""><sup class="text-danger">*</sup> ¿Puede iniciar sesión?</label><br/>
+      <p-inputSwitch formControlName="canLogin"></p-inputSwitch>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-sm-12">
+      <small class="text-muted"><sup class="text-danger">*</sup> Los campos marcados con asteríscos son obligatorios</small>
+    </div>
+    <div class="form-group col">
+      <button class="btn btn-secondary" type="button" [routerLink]="'/admin/usuarios'"><i class="pi pi-arrow-left"></i></button>
+      <button class="btn btn-primary ml-1" type="submit" [disabled]="!passwordMatch || !form.valid">{{ (formType == 'edit') ? 'Actualizar' : 'Registrar' }}</button>
+      <button class="btn btn-link ml-1 text-danger" type="button" *ngIf="formType == 'edit'" (click)="delete()">Eliminar usuario</button>
+    </div>
+  </div>
+
+</form>
+
+
+

@@ -12,19 +12,24 @@
           <a class="nav-link" [routerLink]="['/']">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/admin/ordenes-de-compra']">Ordenes de compra</a>
+          <a class="nav-link" [routerLink]="['/admin/ventas']">Ventas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/admin/inventario']">Inventario</a>
+          <a class="nav-link" [routerLink]="['/admin/ordenes-de-compra']">Ordenes de compra</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-target="#maintainDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Administración
+            Inventario
           </a>
           <div class="dropdown-menu" id="maintainDropdown">
-            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos']"> Mantenedor de productos</a>
-            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos/categorias']"> Mantenedor de categorías</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/inventario']">Stock de productos</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos']"> Productos habilitados</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos/categorias']"> Categoría de productos</a>
           </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/usuarios']">Usuarios</a>
         </li>
 
       </ul>

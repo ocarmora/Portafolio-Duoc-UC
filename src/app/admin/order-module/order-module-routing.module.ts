@@ -11,7 +11,10 @@ const routes: Routes = [
     {path: '', component: OrderListComponent},
     {path: 'crear', component: OrderCreateComponent},
     {path: ':id', component: OrderViewComponent},
-  ]}
+  ]},
+  {path: 'viewer/:id', component: OrderViewComponent, data: {
+    viewer: true
+  }}
 ];
 
 @NgModule({

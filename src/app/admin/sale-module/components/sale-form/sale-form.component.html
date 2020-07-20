@@ -1,0 +1,129 @@
+<div class="row">
+  <div class="col-sm-12 mb-2">
+    <h4>Tipo de venta</h4>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="">Documento: </label>
+    <p-dropdown [options]="documentTypes" [(ngModel)]="documentTypeSelected" [placeholder]="'Seleccione un documento tributario'" [styleClass]="'form-control'"></p-dropdown>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="">Método de pago: </label>
+    <p-dropdown [options]="paymentMethods" [(ngModel)]="paymentMethodselected" [placeholder]="'Seleccione un método de pago'" [styleClass]="'form-control'"></p-dropdown>
+  </div>
+</div>
+
+<div class="row mt-3" *ngIf="documentTypeSelected.tipo == 'factura'">
+  <div class="col-sm-12 mb-2">
+    <h4>Información empresa</h4>
+  </div>
+
+  <div class="form-group col-md-4">
+    <label for="">RUT:</label>
+    <div class="input-group mb-3">
+      <input type="text" id="rutInput" placeholder="Ej: 76763996-1" #inputRut (keyup)="rutFormat(inputRut)" class="form-control" [(ngModel)]="customerRut" maxlength="10">
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button" id="button-addon2" (click)="getCustomerDetail()"><i class="pi pi-search"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group col-md-8"></div>
+
+  <div class="form-group col-md-4">
+    <label for="">Razón social:</label>
+    <input type="text" id="razonSocial" [(ngModel)]="customer.razonSocial" class="form-control" [value]="customerDetail ? customerDetail.detalle.nombre : ''" [readonly]="!customerNotExist" [placeholder]="customerNotExist ? '' : '-'">
+  </div>
+  <div class="form-group col-md-4">
+    <label for="">Dirección:</label>
+    <input type="text" class="form-control" [(ngModel)]="customer.direccion"  [value]="customerDetail && customerDetail.detalle.direccion ? customerDetail.detalle.direccion + ', ' + customerDetail.detalle.comuna : ''" [readonly]="!customerNotExist" [placeholder]="customerNotExist ? 'Ingresar dirección y comuna' : '-'">
+  </div>
+  <div class="form-group col-md-4">
+    <label for="">Comuna:</label>
+    <input type="text" class="form-control" [(ngModel)]="customer.comuna"  [value]="customerDetail && customerDetail.detalle.comuna ? customerDetail.detalle.comuna + ', ' + customerDetail.detalle.comuna : ''" [readonly]="!customerNotExist" [placeholder]="customerNotExist ? 'Ingresar dirección y comuna' : '-'">
+  </div>
+
+  <div class="form-group col-md-4">
+    <label for="">Teléfono:</label>
+    <input type="text" class="form-control" maxlength="9" [(ngModel)]="customer.telefono"  [readOnly]="!customerNotExist" [placeholder]="customerNotExist ? 'Ej: 229998765' : '-'">
+  </div>
+  <div class="form-group col-md-4">
+  <label for="">Correo electrónico:</label>
+    <input type="email" class="form-control" [(ngModel)]="customer.correoElectronico"  [readOnly]="!customerNotExist" [placeholder]="customerNotExist ? '' : '-'">
+  </div>
+  <div class="form-group col-md-4">
+    <label for="">Persona contacto:</label>
+    <input type="text" class="form-control" [(ngModel)]="customer.personaContacto"  [readOnly]="!customerNotExist" [placeholder]="customerNotExist ? '' : '-'">
+  </div>
+
+</div>
+
+<div class="row mt-3">
+  <div class="col-sm-12 mb-2">
+    <h4>Productos</h4>
+  </div>
+  <div class="form-group col-md-4">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+      </div>
+        <input id="barcodeInput" type="text" class="form-control" (keydown.enter)="searchByBarCode()" placeholder="Escanea el código de barra" maxlength="20" [(ngModel)]="barcode" autocomplete="off">
+        <!-- <p-autoComplete [inputId]="'barcodeInput'" [forceSelection]="true" [size]="91" [inputStyleClass]="'form-control'" [placeholder]="'Escanea el código de barra con la pistola'" [suggestions]="productsByBarcode" field="descripcion" (onSelect)="addProduct($event)" (completeMethod)="searchByBarCode($event)"></p-autoComplete> -->
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+
+    <div class="alert alert-light text-center" role="alert" *ngIf="!products.length">
+      <i class="pi pi-info-circle"></i> Agrega productos buscando por el código de barra
+    </div>
+
+    <table class="table" *ngIf="products.length">
+      <thead>
+        <tr>
+          <th></th>
+          <th scope="col">Código de barra</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Precio neto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Subtotal</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products; let index = index" [attr.data-index]="index">
+          <th>
+            <button class="btn text-danger" (click)="removeProduct(product)"><i class="pi pi-times-circle"></i></button>
+          </th>
+          <td>{{ product.codigoDeBarra }}</td>
+          <td>{{ product.descripcion }}</td>
+          <td>{{ product.precioNeto | currency:'CLP' }}</td>
+          <td>
+            <input type="number" class="form-control col-sm-12" [min]="1" [max]="product.stock" (change)="validateStock(product)" (keyup)="validateStock(product)" [(ngModel)]="products[index].cantidad">
+          </td>
+          <td>{{ product.precioNeto * product.cantidad | currency:'CLP' }}</td>
+        </tr>
+        <tr class="font-weight-bold">
+          <td class="text-right" colspan="5">Total Neto</td>
+          <td>{{ subTotal | currency:'CLP'}}</td>
+        </tr>
+        <tr class="font-weight-bold">
+          <td class="text-right" colspan="5">IVA (19%)</td>
+          <td>{{ subTotal * 0.19| currency:'CLP'}}</td>
+        </tr>
+        <tr class="font-weight-bold">
+          <td class="text-right" colspan="5">Total</td>
+          <td>{{ subTotal * 1.19 | currency:'CLP'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>
+
+<div class="row">
+  <div class="col">
+    <button class="btn btn-primary" (click)="sendForm()" [disabled]="products.length == 0">Realizar venta</button>
+  </div>
+</div>

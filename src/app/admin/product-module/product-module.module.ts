@@ -20,6 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { AdminModule } from '../admin.module';
 
+// Import ngx-barcode module
+import { NgxBarcode6Module } from 'ngx-barcode6';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { AdminModule } from '../admin.module';
     ReactiveFormsModule,
     DropdownModule,
     AdminModule,
-    CheckboxModule
+    CheckboxModule,
+    NgxBarcode6Module
   ]
 })
 export class ProductModuleModule { }

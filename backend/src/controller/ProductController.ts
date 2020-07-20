@@ -1,10 +1,12 @@
-import {getRepository} from "typeorm";
+import {getRepository, Like} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Producto} from "../entity/Producto";
+import { DetalleProducto } from "../entity/DetalleProducto";
 
 export class ProductController {
 
   private repository = getRepository(Producto);
+  private productDetailRepository = getRepository(DetalleProducto);
 
   async all(request: Request, response: Response, next: NextFunction){
     return this.repository.find({where: {activo: 1}, relations: ['categoriaProducto', 'proveedor']});
@@ -60,6 +62,30 @@ export class ProductController {
     }).catch(() => {
       return response.status(500).end();
     });
+  }
+
+  async oneByBarcode(request: Request, response: Response, next: NextFunction){
+    let result: any = [];
+    const barcode = request.params.barcode;
+    const fetched: any = await this.repository
+      .createQueryBuilder('products')
+      .addSelect('SUM(detalle.stock)', 'stockTotal')
+      .leftJoin('detalle_producto', 'detalle', 'detalle.productoId = products.id')
+      .where('products.codigoDeBarra = ' + barcode + ' AND products.activo = 1')
+      .groupBy('products.id')
+      .getRawOne();
+
+    let obj: any = {
+      id: fetched.products_id,
+      codigoDeBarra: fetched.products_codigoDeBarra,
+      descripcion: fetched.products_descripcion,
+      precioNeto: fetched.products_precioNeto,
+      stockCritico: fetched.products_stockCritico,
+      tieneVencimiento: fetched.products_tieneVencimiento ? true  : false,
+      stock: fetched.stockTotal ? parseInt(fetched.stockTotal) : 0,
+    }
+
+    response.status(200).send(obj);
   }
 
 }

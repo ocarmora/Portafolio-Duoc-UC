@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row" *ngIf="!sales.length">
+    <div class="col text-center">
+      <span>No se han realizado ventas. Ingrese una nueva venta: </span><br>
+      <button class="btn btn-outline-primary mt-3" role="button" [routerLink]="['nueva']"><i class="pi pi-plus"></i> Nueva venta</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="sales.length > 0">
+
+    <div class="col-md-12 mb-4">
+      <h1 class="h3">Listado de ventas</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-search"></i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Busca por ID, proveedor o estado" (input)="tt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary float-right" role="button" [routerLink]="['nueva']"><i class="pi pi-plus"></i> Nueva venta</button>
+    </div>
+
+    <div class="col-sm-12 mt-4">
+      <p-table #tt [value]="sales" [styleClass]="'shadow'" [globalFilterFields]="['value.proveedor.detalle.nombre', 'value.id', 'value.activo']" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+              <th scope="col" class="text-center">Fecha</th>
+              <th scope="col" class="text-center">Cliente</th>
+              <th scope="col" class="text-center">Vendedor</th>
+              <th scope="col" class="text-center">Documento</th>
+              <th scope="col" class="text-center">Correlativo</th>
+              <th scope="col" class="text-center">Total neto</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-sale>
+          <tr>
+            <td>{{ sale.fecha}}</td>
+            <td>{{ sale.cliente ? sale.cliente : '-'}}</td>
+            <td>{{ sale.vendedor}}</td>
+            <td>{{ sale.documento.tipo}}</td>
+            <td>#{{ sale.documento.correlativo}}</td>
+            <td>{{ sale.documento.total | currency:'CLP'}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </div>
+</div>

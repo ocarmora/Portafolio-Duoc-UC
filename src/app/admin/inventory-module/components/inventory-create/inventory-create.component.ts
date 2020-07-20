@@ -27,7 +27,6 @@ export class InventoryCreateComponent implements OnInit {
       });
 
       this._router.navigate(['/admin/inventario']);
-
     }, (error) => {
       console.log(error);
     });

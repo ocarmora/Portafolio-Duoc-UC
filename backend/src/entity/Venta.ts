@@ -12,7 +12,7 @@ export class Venta {
     fecha: string;
 
     @ManyToOne(type => Usuario, Usuario => Usuario.id)
-    usuarioId: Usuario;
+    usuario: Usuario;
 
     @OneToOne(type => Documento, Documento => Documento.id)
     @JoinColumn()

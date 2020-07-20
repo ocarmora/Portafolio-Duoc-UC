@@ -75,6 +75,10 @@ export class OrderController {
     });
   }
 
+  async pendingOrders(request: Request, response: Response, next: NextFunction){
+    return this.orderRepository.find({where: {activo: 1}})
+  }
+
   async save(request: Request, response: Response, next: NextFunction){
 
     let order = new OrdenDeCompra();

@@ -6,6 +6,7 @@ import { OrdenDeCompra } from "../entity/OrdenDeCompra";
 import { Producto } from "../entity/Producto";
 import { HistorialOrdenDeCompra } from "../entity/HistorialOrdenDeCompra";
 import * as Moment from "moment";
+import { DetalleOrdenDeCompra } from "../entity/DetalleOrdenDeCompra";
 
 
 export class InventoryController {
@@ -13,25 +14,24 @@ export class InventoryController {
   private detailProductRepository = getRepository(DetalleProducto);
   private orderRepository = getRepository(OrdenDeCompra);
   private orderHistoryRepository = getRepository(HistorialOrdenDeCompra);
+  private productRepository = getRepository(Producto);
 
   async getAll(request: Request, response: Response, next: NextFunction){
 
     let result: Array<any> = [];
 
-    const resultFetched =
-      await getRepository(Producto)
-        .createQueryBuilder('p')
-        .select('p.*')
-        .addSelect('SUM(d.stock)', 'stockTotal')
-        .leftJoin('detalle_producto', 'd', 'p.id = d.productoId')
-        .leftJoinAndSelect('categoria_producto', 'cp', 'p.categoriaProductoId = cp.id')
-        .leftJoinAndSelect('usuario', 'pr', 'p.proveedorId = pr.id')
-        .where('p.activo = 1')
-        .groupBy('p.id')
-        .getRawMany();
+    const resultFetched = await getRepository(Producto)
+      .createQueryBuilder('p')
+      .select('p.*')
+      .addSelect('SUM(d.stock)', 'stockTotal')
+      .leftJoin('detalle_producto', 'd', 'p.id = d.productoId')
+      .leftJoinAndSelect('categoria_producto', 'cp', 'p.categoriaProductoId = cp.id')
+      .leftJoinAndSelect('usuario', 'pr', 'p.proveedorId = pr.id')
+      .where('p.activo = 1')
+      .groupBy('p.id')
+      .getRawMany();
 
     resultFetched.forEach(element => {
-
       let obj: any = {};
 
       obj.id = element.id;
@@ -46,18 +46,35 @@ export class InventoryController {
         nombre: element.cp_categoria,
       }
 
-      // obj.proveedor = {
-      //   id: element.pr_id,
-      //   nombre: JSON.parse(element.pr_detalle).nombre,
-      // }
-
-       result.push(obj);
-
+      result.push(obj);
     });
 
     response.status(200).send(result);
-    //response.status(200).send(resultFetched);
+  }
 
+  async getDetail(request: Request, response: Response, next: NextFunction){
+    const productId = request.params.id;
+    let result = [];
+
+    const productDetail = await this.detailProductRepository
+      .createQueryBuilder('d')
+      .leftJoinAndSelect(Producto, 'p', 'p.id = d.productoId')
+      .where('d.producto = :productId', {productId: productId})
+      .getRawMany();
+
+    productDetail.forEach(element => {
+      let obj = {
+        descripcion: element.p_descripcion,
+        sku: element.d_sku,
+        stock: element.d_stock,
+        fechaVencimiento: element.d_fechaVencimiento,
+        ordenDeCompra: element.dOC_ordenDeCompraId
+      }
+
+      result.push(obj);
+    });
+
+    response.status(200).json(result);
   }
 
   async create(request: Request, response: Response, next: NextFunction){
@@ -68,16 +85,16 @@ export class InventoryController {
 
     let expirationDate: string;
     let sku: any;
-    let detailsToSave: Array<any> = [];
     expirationDate = '00000000';
 
-    request.body.detalle.forEach(async (element: any) => {
+    await request.body.detalle.forEach(async (element: any) => {
+
+      let hasExpiration = element.producto.tieneVencimiento;
 
       let product = element.producto;
       let category = element.producto.categoriaProducto;
 
       let quantity = element.cantidad;
-      let purshacePrice = element.precioCompra;
 
       // pad format
       let prodId = pad(product.id, 3);
@@ -90,51 +107,82 @@ export class InventoryController {
         stock: quantity,
         fechaVencimiento: null,
         producto: product,
-        precioCompra: purshacePrice,
         sku: sku
       }
 
-      if(element.detalleFechasVencimiento){
+      if(hasExpiration){ // has expiration date
+
         element.detalleFechasVencimiento.forEach(async (detailExpiration: any)=> {
+
           let objWithExpiration: any = {
             stock: detailExpiration.quantity,
             fechaVencimiento: detailExpiration.date,
             producto: product,
-            precioCompra: purshacePrice,
             sku: '' + provId + prodCatId + (detailExpiration.date.replace(/\//g, '')) + prodId
           }
-          detailsToSave.push(objWithExpiration);
+
+          let detailExist = await this.detailProductRepository.findOne({ where: {sku: objWithExpiration.sku}});
+
+          if(!detailExist){
+            await this.detailProductRepository.save(objWithExpiration);
+          }else{
+            detailExist.stock += detailExpiration.quantity;
+            await this.detailProductRepository.save(detailExist);
+          }
         });
-      }else{
-        detailsToSave.push(obj);
-      }
 
+      }else{ // hasn't expiration date
+
+        let detailExist = await this.detailProductRepository.findOne({where: {sku: sku}});
+
+        if(!detailExist){
+          await this.detailProductRepository.save(obj);
+        }else{
+          detailExist.stock += quantity;
+          await this.detailProductRepository.save(detailExist);
+        }
+      }
     });
 
-    this.detailProductRepository.save(detailsToSave)
-    .then(async () => {
+    // Update order
+    let order = await this.orderRepository.findOne(orderId);
+    order.activo = 2;
+    await this.orderRepository.save(order);
 
-      // Update order
-      let order = await this.orderRepository.findOne(orderId);
-      order.activo = 2;
-      await this.orderRepository.save(order);
+    // Update detail order
+    let orderHistory = {
+      detalle: 'Orden de compra ingresada a inventario',
+      fecha: Moment().format('DD/MM/YYYY'),
+      ordenDeCompra: order,
+      usuario: user
+    }
 
-      // Update detail order
-      let orderHistory = {
-        detalle: 'Orden de compra ingresada a inventario',
-        fecha: Moment().format('DD/MM/YYYY'),
-        ordenDeCompra: order,
-        usuario: user
+    await this.orderHistoryRepository.save(orderHistory);
+
+    response.status(200).end();
+
+  }
+
+  async getCriticalStock(request: Request, response: Response, next: NextFunction){
+    try {
+      let detail = await this.productRepository
+      .createQueryBuilder('p')
+      .select(['p.descripcion as `descripcion`', 'p.stockCritico as `stockCritico`'])
+      .addSelect('SUM(dp.stock)', 'stock')
+      .leftJoin('p.detalleProducto', 'dp')
+      .groupBy('p.id')
+      .having('stock < p.stockCritico')
+      .getRawMany();
+
+      let obj = {
+        total: detail.length,
+        detail: detail
       }
 
-      await this.orderHistoryRepository.save(orderHistory);
-
-      response.status(200).end();
-
-    }).catch(error => {
-      response.status(500).json(error);
-    });
-
+      return obj;
+    } catch (error) {
+      return error;
+    }
   }
 
 }

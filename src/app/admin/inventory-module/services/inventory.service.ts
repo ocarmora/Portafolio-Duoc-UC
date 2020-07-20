@@ -17,4 +17,12 @@ export class InventoryService {
     return this._http.get(environment.API_PATH + 'inventory');
   }
 
+  getInventoryDetail(productId: number){
+    return this._http.get(environment.API_PATH + 'inventory/' + productId + '/detail');
+  }
+
+  getCriticalStock(){
+    return this._http.get(environment.API_PATH + 'inventory/criticalStock');
+  }
+
 }
