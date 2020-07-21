@@ -288,4 +288,10 @@ export const Routes = [
     controller: SaleController,
     action: "bestSellingProduct"
   },
+  {
+    method: "get",
+    route: "providers/detail/:id",
+    controller: UsuarioController,
+    action: "providerDetail"
+  },
 ];

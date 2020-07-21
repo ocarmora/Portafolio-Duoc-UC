@@ -1,0 +1,55 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-12 mb-4">
+      <h1 class="h3">Proveedores registrados</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-search"></i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Busca por RUT o nombre del proveedor" (input)="tt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary float-right" role="button" [routerLink]="['nuevo']"><i class="pi pi-plus"></i> Nuevo proveedor</button>
+    </div>
+
+    <div class="col-sm-12 mt-4">
+
+      <p-table #tt [value]="providers" [styleClass]="'shadow'" [globalFilterFields]="['rut', 'detalle.nombre']" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+              <th class="text-center">RUT</th>
+              <th class="text-center">Razón Social</th>
+              <th class="text-center">Teléfono</th>
+              <th class="text-center">Acceso web</th>
+              <th class="text-center">Acción</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-provider>
+          <tr>
+            <td>{{ provider.rut}}</td>
+            <td>{{ provider.detalle.nombre}}</td>
+            <td>{{ provider.detalle.telefono}}</td>
+            <td class="text-center">
+              <span class="badge badge-pill badge-success" *ngIf="provider.habilitado">Habilitado</span>
+              <span class="badge badge-pill badge-danger" *ngIf="!provider.habilitado">Inhabilitado</span>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-outline-warning btn-circle" [routerLink]="'editar/' + provider.id"><i class="pi pi-user-edit"></i></button>
+              <button class="btn btn-outline-info btn-circle ml-1" [routerLink]="'detalle/' + provider.id"><i class="pi pi-list"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

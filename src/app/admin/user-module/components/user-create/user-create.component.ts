@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventEmitter } from 'protractor';
 import { UserService } from '../../services/user.service';
 import { Toast } from 'src/app/shared/util';
 import { Router } from '@angular/router';

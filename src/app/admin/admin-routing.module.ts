@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'ventas', loadChildren: () => import('./sale-module/sale-module.module').then(m => m.SaleModuleModule) },
   { path: 'usuarios', loadChildren: () => import('./user-module/user-module.module').then(m => m.UserModuleModule) },
   { path: 'clientes', loadChildren: () => import('./customer-module/customer-module.module').then(m => m.CustomerModuleModule) },
+  { path: 'proveedores', loadChildren: () => import('./provider-module/provider-module.module').then(m => m.ProviderModuleModule) },
 ];
 
 @NgModule({

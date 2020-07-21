@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-sm-12">
+      <button class="btn btn-secondary" [routerLink]="['/admin/proveedores']" routerLinkActive="router-link-active" ><i class="pi pi-arrow-left"></i></button>
+    </div>
+    <div class="col-sm-12 mt-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h4 class="h4">Información Comercial</h4>
+            </div>
+          </div>
+
+          <div class="border-top my-3"></div>
+
+          <div class="form-row mt-3">
+            <div class="form-group col-md-4">
+              <label >RUT:</label>
+              <input type="text" class="form-control" [value]="provider.rut" readonly>
+            </div>
+            <div class="form-group col-md-4">
+              <label >Razon social:</label>
+              <input type="text" class="form-control" [value]="provider.razonSocial" readonly>
+            </div>
+            <div class="form-group col-md-4">
+              <label >Dirección:</label>
+              <input type="text" class="form-control" [value]="provider.direccion + ', ' + provider.comuna" readonly>
+            </div>
+          </div>
+          <div class="form-row mt-3">
+            <div class="form-group col-md-4">
+              <label >Persona contacto:</label>
+              <input type="text" class="form-control" [value]="provider.personaContacto" readonly>
+            </div>
+            <div class="form-group col-md-4">
+              <label >Correo electrónico:</label>
+              <input type="text" class="form-control" [value]="provider.email" readonly>
+            </div>
+            <div class="form-group col-md-4">
+              <label >Teléfono:</label>
+              <input type="text" class="form-control" [value]="provider.telefono" readonly>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-sm-12">
+              <h4 class="h4">Ordenes de compra</h4>
+            </div>
+          </div>
+
+          <div class="border-top my-3"></div>
+
+          <div class="row">
+
+            <div class="col" *ngIf="provider.ordenesDeCompra.length == 0">
+              <p class="text-center text-muted">Este proveedor no tiene ordenes de compra asociadas</p>
+            </div>
+
+            <div class="col-sm-12 mt-3" *ngIf="provider.ordenesDeCompra.length > 0">
+              <p-table #tt [value]="provider.ordenesDeCompra" [styleClass]="" [globalFilterFields]="['rut', 'detalle.nombre']" [paginator]="true" [rows]="10">
+                <ng-template pTemplate="header">
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Método de pago</th>
+                      <th class="text-center">Pago factura</th>
+                      <th class="text-center">Documento</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-order>
+                  <tr>
+                    <td class="text-center">#{{ order.id}}</td>
+                    <td class="text-center">
+                      <span class="badge badge-pill badge-warning" *ngIf="order.status == 1">Pendiente</span>
+                      <span class="badge badge-pill badge-success" *ngIf="order.status == 2">Recibida</span>
+                      <span class="badge badge-pill badge-danger" *ngIf="order.status == 0">Anulada</span>
+                    </td>
+                    <td class="text-center">{{ order.metodoDePago}}</td>
+                    <td class="text-center">{{ order.pagoFactura == 0 ? 'Contra entrega' : order.pagoFactura + ' días' }}</td>
+                    <td class="text-center">
+                      <a target="_blank" class="btn btn-outline-info btn-circle"  [routerLink]="'/admin/ordenes-de-compra/' + order.id"><i class="pi pi-file-o"></i></a>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

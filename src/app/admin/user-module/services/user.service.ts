@@ -32,4 +32,8 @@ export class UserService {
   delete(userId: number){
     return this._http.delete(environment.API_PATH + 'users/' + userId);
   }
+
+  getProviders(){
+    return this._http.get(environment.API_PATH + 'users/providers');
+  }
 }
