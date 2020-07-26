@@ -1,1 +1,70 @@
-<p>customer-list works!</p>
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-12 mb-4">
+      <h1 class="h3">Clientes registrados</h1>
+      <hr>
+    </div>
+
+    <div class="col-sm-12 col-md-5">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-search"></i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Filtrar por RUT o nombre del cliente" (input)="tt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-users"></i>
+          </span>
+        </div>
+        <select #userFilter class="form-control" (change)="tt.filterGlobal(userFilter.value, 'contains')">
+          <option value="">Todos</option>
+          <option value="persona">Persona Natural</option>
+          <option value="empresa">Empresa</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary float-right" role="button" [routerLink]="['nuevo']"><i class="pi pi-plus"></i> Nuevo cliente</button>
+    </div>
+
+    <div class="col-sm-12 mt-4">
+
+      <p-table #tt [value]="customers" [styleClass]="'shadow'" [globalFilterFields]="['rut', 'detalle.nombre', 'tipoUsuario.tipo']" [paginator]="true" [rows]="10" [resizableColumns]="true">
+        <ng-template pTemplate="header">
+            <tr>
+              <th class="text-center" style="width:15%">RUT</th>
+              <th class="text-center" style="width:30%">Nombre/Razón Social</th>
+              <th class="text-center" style="width:15%">Tipo</th>
+              <th class="text-center" style="width:20%">Acceso web</th>
+              <th class="text-center" style="width:20%">Acción</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-provider>
+          <tr>
+            <td class="text-center">{{ provider.rut}}</td>
+            <td class="text-center">{{ (provider.tipoUsuario.tipo == 'empresa' ? provider.detalle.nombre : provider.detalle.nombre + ' ' + provider.detalle.apellido) }}</td>
+            <td class="text-center">{{ firstLetterCapitalize(provider.tipoUsuario.tipo) }}</td>
+            <td class="text-center">
+              <span class="badge badge-pill badge-success" *ngIf="provider.habilitado">Habilitado</span>
+              <span class="badge badge-pill badge-danger" *ngIf="!provider.habilitado">Inhabilitado</span>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-outline-warning btn-circle" [routerLink]="'editar/' + provider.id" ><i class="pi pi-user-edit"></i></button>
+              <button class="btn btn-outline-info btn-circle ml-1" [routerLink]="'detalle/' + provider.id"><i class="pi pi-list"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

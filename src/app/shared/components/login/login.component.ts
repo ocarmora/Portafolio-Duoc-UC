@@ -41,9 +41,18 @@ export class LoginComponent implements OnInit {
 
     this._authService.login(loginForm.value).subscribe(
       (result: any) => {
-        //const userRole = result.user.tipoUsuario;
+        // //const userRole = result.user.tipoUsuario;
+
+        if(!result.user.habilitado){
+          return Toast.fire({
+            icon: 'warning',
+            titleText: 'Cuenta inhabilitada'
+          })
+        }
+
         this._authService.setToken(result.token);
         return this._router.navigate([redirectURL]);
+
       },
       (error: any) => {
         loginForm.setValue({username: loginForm.value.username, password: ''})

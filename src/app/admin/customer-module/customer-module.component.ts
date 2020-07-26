@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-customer-module',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerModuleComponent implements OnInit {
 
-  constructor() { }
+  currentUser: any = {};
+  constructor(private _authService: AuthService) { }
 
   ngOnInit(): void {
   }

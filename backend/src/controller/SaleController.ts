@@ -276,4 +276,28 @@ export class SaleController {
       .getRawMany();
   }
 
+  async saleDetail(request: Request, response: Response, next: NextFunction){
+    const id = request.params.id;
+    return await this.sellRepository
+      .createQueryBuilder("venta")
+      .leftJoinAndSelect("venta.documento", "documento")
+      .leftJoinAndSelect("venta.usuario", "usuario")
+      .leftJoinAndSelect("documento.cliente", "cliente")
+      .leftJoinAndSelect("documento.productos", "productos")
+      .leftJoinAndSelect("productos.producto", "producto")
+      .leftJoinAndSelect("documento.tipoDocumento", "tipo")
+      .where("venta.id = :id", {id})
+      .getOne();
+  }
+
+  async userPurchases(request: Request, response: Response, next: NextFunction){
+    const id = request.params.id;
+    return await this.documentRepository.find({
+      where: {
+        cliente: id
+      },
+      relations: ["productos", "productos.producto", "tipoDocumento"]
+    })
+  }
+
 }

@@ -41,7 +41,7 @@ export class AuthController {
       let token: string;
       let userFound: any;
 
-      this.userRepository.findOneOrFail({ where: {rut: username, activo: 1, habilitado: 1}, relations: ["tipoUsuario"]})
+      this.userRepository.findOneOrFail({ where: {rut: username, activo: 1}, relations: ["tipoUsuario"]})
         .then(user => {
           userFound = user;
           bcrypt.compare(password, user.password)

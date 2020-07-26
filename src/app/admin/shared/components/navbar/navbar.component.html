@@ -6,8 +6,10 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav mr-auto">
+    <div class="collapse navbar-collapse" id="navbarText" *ngIf="currentUser.tipoUsuario">
+
+      <!-- admin -->
+      <ul class="navbar-nav mr-auto" *ngIf="currentUser.tipoUsuario.id == 1">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/']">Inicio</a>
         </li>
@@ -23,6 +25,9 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/admin/clientes']">Clientes</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/usuarios']">Usuarios</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-target="#maintainDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Inventario
@@ -33,8 +38,54 @@
             <a class="dropdown-item" href="#" [routerLink]="['/admin/productos/categorias']"> Categoría de productos</a>
           </div>
         </li>
+      </ul>
+
+      <!-- proveedor -->
+      <ul class="navbar-nav mr-auto" *ngIf="currentUser.tipoUsuario.id == 4">
+      </ul>
+
+      <!-- cliente: empresa/persona -->
+      <ul class="navbar-nav mr-auto" *ngIf="currentUser.tipoUsuario.id == 2 || currentUser.tipoUsuario.id == 6">
+      </ul>
+
+      <!-- vendedor -->
+      <ul class="navbar-nav mr-auto" *ngIf="currentUser.tipoUsuario.id == 3">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/admin/usuarios']">Usuarios</a>
+          <a class="nav-link" [routerLink]="['/admin/ventas']">Ventas</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-target="#maintainDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Inventario
+          </a>
+          <div class="dropdown-menu" id="maintainDropdown">
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/inventario']">Stock de productos</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos']"> Productos habilitados</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/clientes']">Clientes</a>
+        </li>
+      </ul>
+
+      <!-- empleado -->
+      <ul class="navbar-nav mr-auto" *ngIf="currentUser.tipoUsuario.id == 5">
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/ordenes-de-compra']">Ordenes de compra</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/proveedores']">Proveedores</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-target="#maintainDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Inventario
+          </a>
+          <div class="dropdown-menu" id="maintainDropdown">
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/inventario']">Stock de productos</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos']"> Productos habilitados</a>
+            <a class="dropdown-item" href="#" [routerLink]="['/admin/productos/categorias']"> Categoría de productos</a>
+          </div>
         </li>
       </ul>
 

@@ -9,7 +9,7 @@ export class ProductController {
   private productDetailRepository = getRepository(DetalleProducto);
 
   async all(request: Request, response: Response, next: NextFunction){
-    return this.repository.find({where: {activo: 1}, relations: ['categoriaProducto', 'proveedor']});
+    return this.repository.find({where: {activo: 1}, relations: ['categoriaProducto', 'proveedor'], order: {id: 'DESC'}});
   }
 
   async productsByProvider(request: Request, response: Response, next: NextFunction){

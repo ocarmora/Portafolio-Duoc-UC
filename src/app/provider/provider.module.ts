@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { ProviderRoutingModule } from './provider-routing.module';
 import { ProviderComponent } from './provider.component';
+import { AdminModule } from '../admin/admin.module';
+import { OrderListComponent } from './components/order-list/order-list.component';
 
 
 @NgModule({
-  declarations: [ProviderComponent],
+  declarations: [ProviderComponent, OrderListComponent],
   imports: [
     CommonModule,
-    ProviderRoutingModule
+    ProviderRoutingModule,
+    AdminModule
   ]
 })
 export class ProviderModule { }

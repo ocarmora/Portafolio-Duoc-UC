@@ -7,13 +7,15 @@ import { ProviderListComponent } from './components/provider-list/provider-list.
 import { ProviderCreateComponent } from './components/provider-create/provider-create.component';
 import { ProviderEditComponent } from './components/provider-edit/provider-edit.component';
 import { ProviderDetailComponent } from './components/provider-detail/provider-detail.component';
+import { RoleGuard } from 'src/app/shared/guards/role.guard';
+import { UserType } from 'backend/src/Utilities';
 
 const routes: Routes = [
   { path: '', component: ProviderModuleComponent, canActivate: [AuthGuard], children: [
-    {path: '', component: ProviderListComponent},
-    {path: 'nuevo', component: ProviderCreateComponent},
-    {path: 'editar/:id', component: ProviderEditComponent},
-    {path: 'detalle/:id', component: ProviderDetailComponent},
+    {path: '', component: ProviderListComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
+    {path: 'nuevo', component: ProviderCreateComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
+    {path: 'editar/:id', component: ProviderEditComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
+    {path: 'detalle/:id', component: ProviderDetailComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
   ]}
 ];
 

@@ -51,6 +51,14 @@ export class UsuarioController {
     return this.userRepository.find({where: {tipoUsuario: UserType.Proveedor, activo: 1}});
   }
 
+  async getCustomerUsers(request: Request, response: Response, next: NextFunction){
+    return await this.userRepository
+    .createQueryBuilder("c")
+    .leftJoinAndSelect("c.tipoUsuario", 'tU')
+    .where("tU.id = '2' OR tU.id = '6' AND c.activo = 1")
+    .getMany()
+  }
+
   async getRoles(request: Request, response: Response, next: NextFunction){
     return this.userRolesRepository.find();
   }
@@ -65,7 +73,9 @@ export class UsuarioController {
         nombre: request.body.name,
         segundoNombre: request.body.secondName,
         apellido: request.body.lastName,
-        segundoApellido: request.body.secondLastName
+        segundoApellido: request.body.secondLastName,
+        email: request.body.email,
+        telefono: request.body.phone
       }
     }else{
       userDetail = {
@@ -130,7 +140,9 @@ export class UsuarioController {
         nombre: request.body.name,
         segundoNombre: request.body.secondName,
         apellido: request.body.lastName,
-        segundoApellido: request.body.secondLastName
+        segundoApellido: request.body.secondLastName,
+        email: request.body.email,
+        telefono: request.body.phone
       }
     }else{
       user.detalle = {
@@ -190,6 +202,57 @@ export class UsuarioController {
         result.ordenesDeCompra.push(order);
       }
     }
+    response.status(200).json(result);
+  }
+
+  async getCustomerDetails(request: Request, response: Response, next: NextFunction){
+    let result:any = {};
+    const id = request.params.id;
+    const data: any = await this.userRepository
+      .createQueryBuilder("c")
+      .leftJoinAndSelect("documento", "d", "d.clienteId = c.id")
+      .leftJoinAndSelect("c.tipoUsuario", "tipoUsuario")
+      .leftJoinAndSelect("d.tipoDocumento", "tD")
+      .orderBy("d.id", "DESC")
+      .where("c.id = :id", {id: id})
+      .getRawMany();
+
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      const detail = JSON.parse(data[index].c_detalle);
+      if(index == 0){
+        if(element.tipoUsuario_tipo == 'empresa'){
+          result.rut = element.c_rut,
+          result.razonSocial = detail.segundoNombre ? detail.nombre + ' ' + detail.segundoApellido: detail.nombre,
+          result.direccion = detail.direccion,
+          result.comuna = detail.comuna,
+          result.telefono = detail.telefono,
+          result.email = detail.email,
+          result.personaContacto = detail.personaContacto,
+          result.compras = []
+        }else{
+          result.rut = element.c_rut,
+          result.nombres = detail.nombre + ' ' + detail.segundoNombre
+          result.apellidos = detail.apellido + ' ' + detail.segundoApellido
+          result.telefono = detail.telefono ? detail.telefono : '',
+          result.email = detail.email ? detail.email : '',
+          result.compras = []
+        }
+      }
+
+      if(element.d_id){
+        let obj = {
+          id: element.d_id,
+          correlativo: element.d_correlativo,
+          fecha: element.d_fechaCreacion,
+          total: element.d_totalNeto,
+          documento: element.tD_tipo
+        }
+        result.compras.push(obj);
+      }
+
+    }
+
     response.status(200).json(result);
   }
 

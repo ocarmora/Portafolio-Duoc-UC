@@ -3,7 +3,6 @@ import {NextFunction, Request, Response} from "express";
 import {OrdenDeCompra} from "../entity/OrdenDeCompra";
 import {HistorialOrdenDeCompra} from "../entity/HistorialOrdenDeCompra";
 import {DetalleOrdenDeCompra} from "../entity/DetalleOrdenDeCompra";
-import { Producto } from "../entity/Producto";
 import * as Moment from "moment";
 
 export class OrderController {
@@ -135,6 +134,19 @@ export class OrderController {
       return response.status(200).end();
     }).catch(error => {
       return response.status(500).json(error);
+    });
+  }
+
+  async providerOrders(request: Request, response: Response, next: NextFunction){
+    const id = request.params.id;
+    return await this.orderRepository.find({
+      where: {
+        proveedor: id
+      },
+      relations: ['detalle', 'detalle.producto', 'historial'],
+      order: {
+        id: 'DESC'
+      }
     });
   }
 

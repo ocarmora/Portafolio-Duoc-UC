@@ -98,7 +98,7 @@
     <div class="form-group col">
       <button class="btn btn-secondary" type="button" [routerLink]="'/admin/proveedores'"><i class="pi pi-arrow-left"></i></button>
       <button class="btn btn-primary ml-1" type="submit" [disabled]="!passwordMatch || !form.valid">{{ formType == 'create' ? 'Registrar' : 'Actualizar'}}</button>
-      <button class="btn btn-link ml-1 text-danger" type="button" *ngIf="formType == 'edit'" (click)="deleteProvider()">Eliminar proveedor</button>
+      <button class="btn btn-link ml-1 text-danger" type="button" *ngIf="formType == 'edit' && currentUser.tipoUsuario.id == 1" (click)="deleteProvider()">Eliminar proveedor</button>
     </div>
   </div>
 

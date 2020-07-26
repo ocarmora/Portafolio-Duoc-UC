@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row" *ngIf="orders.length == 0">
+    <div class="col">
+      <p class="text-center text-muted">
+        Estimados, ustedes no cuentan con ordenes de compra solicitadas.
+      </p>
+    </div>
+  </div>
+  <div class="row" *ngIf="orders.length > 0">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h4 class="h4 text-primary">Historial órdenes de compra</h4>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <table class="table text-center">
+                <thead>
+                  <th>ID</th>
+                  <th>Fecha solicitud</th>
+                  <th>Método de pago</th>
+                  <th>Estado</th>
+                  <th>Pago factura</th>
+                  <th>Detalle</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of orders; let i = index" [attr.data-index]="i">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.historial[order.historial.length - 1].fecha }}</td>
+                    <td>{{ flc(order.metodoDePago) }}</td>
+                    <td>
+                      <span class="badge badge-warning" *ngIf="order.activo == 1">Pendiente</span>
+                      <span class="badge badge-success" *ngIf="order.activo == 2">Entregada</span>
+                      <span class="badge badge-danger" *ngIf="order.activo == 0">Anulada</span>
+                    </td>
+                    <td>{{ order.pagoFacturaDias > 0 ? order.pagoFacturaDias + ' días' : 'Contra entrega' }}</td>
+                    <td>
+                      <button type="button" class="btn btn-outline-info btn-circle" (click)="detail(i)" data-toggle="modal" data-target="#orderDetail">
+                        <i class="pi pi-info"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="orderDetail" tabindex="-1" role="dialog" aria-labelledby="orderDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailLabel">Detalle orden de compra</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row mt-1">
+          <div class="col-sm-12">
+            <h5 class="h5">1. Productos</h5>
+          </div>
+          <div class="col-sm-12 mt-2">
+            <table class="table">
+              <thead>
+                <th>#</th>
+                <th>Descripción</th>
+                <th>Precio compra</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of orderDetail.detalle">
+                  <td>{{ orderDetail.detalle.indexOf(product) + 1 }}</td>
+                  <td>{{ product.producto.descripcion }}</td>
+                  <td>{{ product.precioCompra | currency:'CLP' }}</td>
+                  <td>{{ product.cantidad }}</td>
+                  <td>{{ product.precioCompra * product.cantidad | currency:'CLP' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="border-top my-3"></div>
+
+        <div class="row mt-3">
+          <div class="col-sm-12">
+            <h5 class="h5">2. Nota de Ferretería Ferme</h5>
+          </div>
+          <div class="col-sm-12 mt-2">
+            <p *ngIf="orderDetail.comentario">{{ orderDetail.comentario }}</p>
+            <p *ngIf="!orderDetail.comentario" class="text-muted">Orden de compra sin comentarios</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

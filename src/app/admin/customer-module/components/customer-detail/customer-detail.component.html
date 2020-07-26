@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-sm-12">
+      <button class="btn btn-secondary" [routerLink]="['/admin/clientes']" routerLinkActive="router-link-active" ><i class="pi pi-arrow-left"></i></button>
+    </div>
+    <div class="col-sm-12 mt-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h4 class="h4">1. Información Personal</h4>
+            </div>
+          </div>
+
+          <div class="border-top my-3"></div>
+
+          <div *ngIf="!customer.razonSocial">
+            <div class="form-row mt-3">
+              <div class="form-group col-md-3">
+                <label >RUN:</label>
+                <input type="text" class="form-control" [value]="customer.rut" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label>Nombres:</label>
+                <input type="text" class="form-control" [value]="customer.nombres" readonly>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Apellidos:</label>
+                <input type="text" class="form-control" [value]="customer.apellidos" readonly>
+              </div>
+              <div class="form-group col-md-3">
+                <label >Teléfono:</label>
+                <input type="text" class="form-control" [value]="customer.telefono ? customer.telefono : '-'" readonly>
+              </div>
+              <div class="form-group col-md-3">
+                <label >Correo electrónico:</label>
+                <input type="text" class="form-control" [value]="customer.email ? customer.email : '-'" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="customer.razonSocial">
+            <div class="form-row mt-3">
+              <div class="form-group col-md-4">
+                <label >RUT:</label>
+                <input type="text" class="form-control" [value]="customer.rut" readonly>
+              </div>
+              <div class="form-group col-md-4">
+                <label >Razon social:</label>
+                <input type="text" class="form-control" [value]="customer.razonSocial" readonly>
+              </div>
+              <div class="form-group col-md-4">
+                <label >Dirección:</label>
+                <input type="text" class="form-control" [value]="customer.direccion + ', ' + customer.comuna" readonly>
+              </div>
+            </div>
+            <div class="form-row mt-3">
+              <div class="form-group col-md-4">
+                <label >Persona contacto:</label>
+                <input type="text" class="form-control" [value]="customer.personaContacto" readonly>
+              </div>
+              <div class="form-group col-md-4">
+                <label >Correo electrónico:</label>
+                <input type="text" class="form-control" [value]="customer.email" readonly>
+              </div>
+              <div class="form-group col-md-4">
+                <label >Teléfono:</label>
+                <input type="text" class="form-control" [value]="customer.telefono" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-sm-12">
+              <h4 class="h4">2. Historial de compras</h4>
+            </div>
+          </div>
+
+          <div class="border-top my-3"></div>
+
+          <div class="row">
+
+            <div class="col" *ngIf="customer.compras.length == 0">
+              <p class="text-center text-muted">Este cliente no registra compras </p>
+            </div>
+
+            <div class="col-sm-12 mt-3" *ngIf="customer.compras.length > 0">
+              <p-table #tt [value]="customer.compras" [styleClass]="" [globalFilterFields]="['rut', 'detalle.nombre']" [paginator]="true" [rows]="10">
+                <ng-template pTemplate="header">
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Correlativo</th>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Monto</th>
+                      <th class="text-center">Documento</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-purchase>
+                  <tr>
+                    <td class="text-center">{{ purchase.id}}</td>
+                    <td class="text-center">#{{ purchase.correlativo }}</td>
+                    <td class="text-center">{{ purchase.fecha}}</td>
+                    <td class="text-center">{{ purchase.total | currency:'CLP'}}</td>
+                    <td class="text-center">
+                      <a target="_blank" class="btn btn-outline-info btn-circle"  [routerLink]="'/admin/ventas/detalle/' + purchase.id"><i class="pi pi-file-o"></i></a>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

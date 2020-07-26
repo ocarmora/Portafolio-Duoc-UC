@@ -13,14 +13,24 @@
       <hr>
     </div>
 
-    <div class="col-sm-12 col-md-8">
+    <div class="col-sm-12 col-md-4">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">
             <i class="pi pi-search"></i>
           </span>
         </div>
-        <input type="text" class="form-control" placeholder="Busca por ID, proveedor o estado" (input)="tt.filterGlobal($event.target.value, 'contains')">
+        <input type="text" class="form-control" placeholder="Filtrar por correlativo" (input)="tt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="pi pi-calendar"></i>
+          </span>
+        </div>
+        <p-calendar [maxDate]="maxDateValue" (onClearClick)="tt.filterGlobal('', 'contains')" dateFormat="dd/mm/yy" [showButtonBar]='true' [placeholder]="'Filtrar por fecha'" [inputStyleClass]="'form-control w-100'" [locale]="es" (onSelect)="tt.filterGlobal(dateFormated($event), 'contains')"></p-calendar>
       </div>
     </div>
 
@@ -29,29 +39,28 @@
     </div>
 
     <div class="col-sm-12 mt-4">
-      <p-table #tt [value]="sales" [styleClass]="'shadow'" [globalFilterFields]="['value.proveedor.detalle.nombre', 'value.id', 'value.activo']" [paginator]="true" [rows]="10">
+      <p-table #tt [value]="sales" [styleClass]="'shadow'" [globalFilterFields]="['fecha', 'documento.correlativo']" [paginator]="true" [rows]="10">
         <ng-template pTemplate="header">
             <tr>
               <th scope="col" class="text-center">Fecha</th>
-              <th scope="col" class="text-center">Cliente</th>
               <th scope="col" class="text-center">Vendedor</th>
               <th scope="col" class="text-center">Documento</th>
               <th scope="col" class="text-center">Correlativo</th>
               <th scope="col" class="text-center">Total neto</th>
+              <th scope="col" class="text-center">Detalle</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-sale>
-          <tr>
+          <tr class="text-center">
             <td>{{ sale.fecha}}</td>
-            <td>{{ sale.cliente ? sale.cliente : '-'}}</td>
             <td>{{ sale.vendedor}}</td>
             <td>{{ sale.documento.tipo}}</td>
-            <td>#{{ sale.documento.correlativo}}</td>
+            <td>#{{ sale.documento.correlativo }}</td>
             <td>{{ sale.documento.total | currency:'CLP'}}</td>
+            <td><button class="btn btn-outline-info btn-circle" [routerLink]="'detalle/' + sale.id "><i class="pi pi-eye"></i></button></td>
           </tr>
         </ng-template>
       </p-table>
-
     </div>
   </div>
 </div>

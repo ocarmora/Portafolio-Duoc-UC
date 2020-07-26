@@ -1,1 +1,14 @@
-<p>customer-create works!</p>
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-sm-12 mb-3">
+      <h1 class="h3 text-dark">Registro nuevo cliente</h1>
+    </div>
+    <div class="col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <app-customer-form [formType]="'create'" (formEvent)="create($event)"></app-customer-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

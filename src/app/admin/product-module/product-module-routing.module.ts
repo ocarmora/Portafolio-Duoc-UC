@@ -9,16 +9,18 @@ import { ProductEditComponent } from './components/product/product-edit/product-
 import { ProductCategoryComponent } from './components/product-category/product-category.component';
 import { ProductCategoryListComponent } from './components/product-category/product-category-list/product-category-list.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
+import { RoleGuard } from 'src/app/shared/guards/role.guard';
+import { UserType } from 'backend/src/Utilities';
 
 const routes: Routes = [
   {path: '', component: ProductModuleComponent, children: [
-    {path: '', component: ProductListComponent},
-    {path: 'crear', component: ProductCreateComponent},
-    {path: 'editar/:id', component: ProductEditComponent},
+    {path: '', component: ProductListComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Vendedor, UserType.Empleado]}},
+    {path: 'crear', component: ProductCreateComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
+    {path: 'editar/:id', component: ProductEditComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
     {path: 'categorias', component: ProductCategoryComponent, children: [
-      {path: '', component: ProductCategoryListComponent},
-      {path: 'crear', component: ProductCategoryCreateComponent},
-      {path: 'editar/:id', component: ProductCategoryEditComponent},
+      {path: '', component: ProductCategoryListComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
+      {path: 'crear', component: ProductCategoryCreateComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
+      {path: 'editar/:id', component: ProductCategoryEditComponent, canActivate: [RoleGuard], data: {roles: [UserType.Admin, UserType.Empleado]}},
     ]}
   ]},
 ];

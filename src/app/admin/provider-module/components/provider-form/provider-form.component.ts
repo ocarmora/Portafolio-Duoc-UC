@@ -4,6 +4,7 @@ import { EventEmitter } from '@angular/core';
 import { Toast, SwalConfirm } from 'src/app/shared/util';
 import { UserService } from 'src/app/admin/user-module/services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-provider-form',
@@ -11,6 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./provider-form.component.css']
 })
 export class ProviderFormComponent implements OnInit {
+
+  currentUser: any = {};
 
   @Input()
   formType: string = 'create';
@@ -35,10 +38,18 @@ export class ProviderFormComponent implements OnInit {
 
   passwordMatch: any;
 
-  constructor(private _userService: UserService, private _activatedRoute: ActivatedRoute, private _routerService: Router) { }
+  constructor(private _userService: UserService, private _activatedRoute: ActivatedRoute, private _routerService: Router, private _authService: AuthService) { }
 
   ngOnInit(): void {
     this.initForm(this.formType);
+    this.getCurrentUser();
+  }
+
+  getCurrentUser(){
+    const token = this._authService.getToken();
+    this._authService.getCurrentUser(token).subscribe((result: Object) => {
+      this.currentUser = result;
+    });
   }
 
   initForm(type: string){

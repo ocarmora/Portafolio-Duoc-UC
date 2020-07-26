@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-sm-12">
+      <button class="btn btn-secondary" [routerLink]="['/admin/ventas']" routerLinkActive="router-link-active" ><i class="pi pi-arrow-left"></i></button>
+    </div>
+    <div class="col-sm-12 mt-4">
+      <div class="card shadow">
+        <div class="card-body">
+
+          <div class="row" *ngIf="sale.documento">
+            <div class="col">
+              <h4 class="h4">Detalle {{ sale.documento.tipoDocumento.tipo }} nº {{ sale.documento.correlativo }}</h4>
+            </div>
+          </div>
+
+          <div class="border-top my-3"></div>
+
+          <div class="row mt-1">
+
+            <div class="col-md-4" *ngIf="sale.usuario">
+
+              <ul class="list-group">
+                <li class="list-group-item">Fecha: {{ sale.fecha }}</li>
+                <li class="list-group-item">Vendedor: {{ sale.usuario.detalle.nombre + ' ' + sale.usuario.detalle.apellido }}</li>
+                <li class="list-group-item">Cliente: {{ sale.documento.cliente ? sale.documento.cliente.detalle.nombre : 'No asociado' }} <a href="" *ngIf="sale.documento.cliente" class="text-secondary" [routerLink]="['/admin/clientes/detalle/' + sale.documento.cliente.id]" routerLinkActive="router-link-active" ><i class="pi pi-info"></i></a> </li>
+              </ul>
+
+            </div>
+
+            <div class="col-md-8">
+              <table class="table table-bordered table-sm" *ngIf="sale.documento">
+                <thead>
+                  <tr>
+                    <th>Código de barra</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of sale.documento.productos">
+                    <td>{{ product.producto.codigoDeBarra }}</td>
+                    <td>{{ product.producto.descripcion }}</td>
+                    <td>{{ product.cantidad }}</td>
+                    <td>{{ product.precioNeto | currency:'CLP' }}</td>
+                    <td>{{ product.subtotalNeto | currency:'CLP' }}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Total Neto</strong></td>
+                    <td>{{ sale.documento.totalNeto | currency:'CLP'}}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>IVA (19%)</strong></td>
+                    <td>{{ sale.documento.totalNeto * 0.19 | currency:'CLP'}}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Total</strong></td>
+                    <td>{{ sale.documento.totalNeto * 1.19 | currency:'CLP'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

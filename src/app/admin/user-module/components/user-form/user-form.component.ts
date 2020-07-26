@@ -5,6 +5,7 @@ import { SelectItem } from 'primeng/api';
 import { firstLetterCapitalize } from 'backend/src/Utilities';
 import { Toast, SwalConfirm } from 'src/app/shared/util';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-user-form',
@@ -12,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit {
+
+  currentUser: any = {};
 
   @Input()
   userId: number;
@@ -38,11 +41,19 @@ export class UserFormComponent implements OnInit {
     canLogin: new FormControl(true, Validators.required),
   });
 
-  constructor(private _userService: UserService, private _activatedRoute: ActivatedRoute, private _routerService: Router) { }
+  constructor(private _userService: UserService, private _activatedRoute: ActivatedRoute, private _routerService: Router, private _authService: AuthService) { }
 
   ngOnInit(): void {
     this.getUserRoles();
     this.initForm();
+    this.getCurrentUser();
+  }
+
+  getCurrentUser(){
+    const token = this._authService.getToken();
+    this._authService.getCurrentUser(token).subscribe((result: Object) => {
+      this.currentUser = result;
+    });
   }
 
   getUserRoles(){

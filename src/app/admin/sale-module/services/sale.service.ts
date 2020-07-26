@@ -49,4 +49,8 @@ export class SaleService {
     return this._http.get(environment.API_PATH + 'sales/product/'+ year + '/' + month + '/best');
   }
 
+  getSaleDetail(id: number){
+    return this._http.get(environment.API_PATH + 'sales/detail/' + id);
+  }
+
 }

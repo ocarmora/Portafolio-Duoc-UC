@@ -47,6 +47,20 @@ export const Routes = [
     action: "getProviderUsers"
   },
   {
+    // Provider users
+    method: "get",
+    route: "users/customers/detail/:id",
+    controller: UsuarioController,
+    action: "getCustomerDetails"
+  },
+  {
+    // Provider users
+    method: "get",
+    route: "users/customers",
+    controller: UsuarioController,
+    action: "getCustomerUsers"
+  },
+  {
     method: "get",
     route: "users/roles",
     controller: UsuarioController,
@@ -290,8 +304,26 @@ export const Routes = [
   },
   {
     method: "get",
+    route: "sales/detail/:id",
+    controller: SaleController,
+    action: "saleDetail"
+  },
+  {
+    method: "get",
     route: "providers/detail/:id",
     controller: UsuarioController,
     action: "providerDetail"
   },
+  {
+    method: "get",
+    route: "providers/:id/orders",
+    controller: OrderController,
+    action: "providerOrders"
+  },
+  {
+    method: "get",
+    route: "purchases/:id",
+    controller: SaleController,
+    action: "userPurchases"
+  }
 ];

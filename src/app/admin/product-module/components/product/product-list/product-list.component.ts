@@ -3,6 +3,7 @@ import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../../../shared/interfaces/product';
 import { SwalConfirm, Toast } from 'src/app/shared/util';
 import { ProductCategoryService } from '../../../services/product-category.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -11,15 +12,25 @@ import { ProductCategoryService } from '../../../services/product-category.servi
 })
 export class ProductListComponent implements OnInit {
 
+  currentUser: any = {};
   products: Product[] = [];
   productCategories: boolean; // Check if exists product categories
 
-  constructor(private _productService: ProductService, private _productCategoryService: ProductCategoryService) { }
+  constructor(private _authService: AuthService, private _productService: ProductService, private _productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
     this.getProducts();
     this.getProductCategories();
+    this.getCurrentUser();
   }
+
+  getCurrentUser(){
+    const token = this._authService.getToken();
+    this._authService.getCurrentUser(token).subscribe((result: Object) => {
+      this.currentUser = result;
+    });
+  }
+
 
   getProducts(){
     this._productService.getAll().subscribe(result => {

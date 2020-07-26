@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="currentUser.tipoUsuario">
 
     <div class="col-sm-12 col-md-8">
       <div class="input-group">
@@ -29,12 +29,12 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="currentUser.tipoUsuario.id !== 3">
       <button class="btn btn-primary float-right" role="button" [routerLink]="['ingresar']"><i class="pi pi-plus"></i> Ingresar productos</button>
     </div>
   </div>
 
-  <div class="row mt-4">
+  <div class="row mt-4 mb-5">
     <div class="col-sm-12">
       <p-table #tt [styleClass]="'shadow'" [globalFilterFields]="['codigoDeBarra']" [value]="inventory">
         <ng-template pTemplate="header">

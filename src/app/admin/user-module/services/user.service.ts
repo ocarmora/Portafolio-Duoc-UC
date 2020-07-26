@@ -36,4 +36,13 @@ export class UserService {
   getProviders(){
     return this._http.get(environment.API_PATH + 'users/providers');
   }
+
+  getCustomers(){
+    return this._http.get(environment.API_PATH + 'users/customers');
+  }
+
+  getCustomerDetail(id: number){
+    return this._http.get(environment.API_PATH + 'users/customers/detail/' + id);
+  }
+
 }

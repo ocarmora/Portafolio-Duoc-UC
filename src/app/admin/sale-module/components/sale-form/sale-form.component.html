@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <div class="col-sm-12">
+  <div class="col-sm-12 mb-5">
 
     <div class="alert alert-light text-center" role="alert" *ngIf="!products.length">
       <i class="pi pi-info-circle"></i> Agrega productos buscando por el código de barra
@@ -122,7 +122,7 @@
 
 </div>
 
-<div class="row">
+<div class="row mb-5">
   <div class="col">
     <button class="btn btn-primary" (click)="sendForm()" [disabled]="products.length == 0">Realizar venta</button>
   </div>

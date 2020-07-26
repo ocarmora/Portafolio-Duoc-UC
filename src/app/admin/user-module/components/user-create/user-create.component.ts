@@ -23,7 +23,7 @@ export class UserCreateComponent implements OnInit {
         titleText: 'Registro correcto'
       });
 
-      return this._router.navigate['/admin/usuarios']
+      return this._router.navigate(['/admin/usuarios'])
 
     }, (error) => {
       Toast.fire({

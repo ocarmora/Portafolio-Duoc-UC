@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="row" *ngIf="purchases.length == 0">
+    <div class="col">
+      <p class="text-center text-muted">
+        No hay compras registradas a su RUT
+      </p>
+    </div>
+  </div>
+  <div class="row" *ngIf="purchases.length > 0">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h4 class="h4 text-primary">Historial de compras</h4>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <table class="table text-center">
+                <thead>
+                  <th>Fecha</th>
+                  <th>Documento</th>
+                  <th>Nº documento</th>
+                  <th>Total</th>
+                  <th>Detalle</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let purchase of purchases; let i = index" [attr.data-index]="i">
+                    <td>{{ purchase.fechaCreacion }}</td>
+                    <td>{{ flc(purchase.tipoDocumento.tipo) }}</td>
+                    <td>{{ purchase.correlativo }}</td>
+                    <td>{{ purchase.totalNeto | currency:'CLP' }}</td>
+                    <td>
+                      <button type="button" class="btn btn-outline-info btn-circle" (click)="detail(i)" data-toggle="modal" data-target="#orderDetail">
+                        <i class="pi pi-info"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="orderDetail" tabindex="-1" role="dialog" aria-labelledby="orderDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailLabel">Detalle venta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row mt-1">
+          <div class="col-sm-12">
+            <h5 class="h5">1. Productos</h5>
+          </div>
+          <div class="col-sm-12 mt-2">
+            <table class="table table-sm">
+              <thead>
+                <th>Cod.</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of purchaseDetail.productos" class="border-top">
+                  <td>{{ product.producto.codigoDeBarra }}</td>
+                  <td>{{ product.producto.descripcion }}</td>
+                  <td>{{ product.precioNeto | currency:'CLP' }}</td>
+                  <td>{{ product.cantidad }}</td>
+                  <td>{{ product.precioNeto * product.cantidad | currency:'CLP' }}</td>
+                </tr>
+                <tr class="font-weight-bold">
+                  <td class="border-top"></td>
+                  <td class="border-top"></td>
+                  <td class="border-top"></td>
+                  <td class="border-top text-right">Total Neto</td>
+                  <td class="border-top">{{ purchaseDetail.totalNeto | currency:'CLP' }}</td>
+                </tr>
+                <tr class="font-weight-bold">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="text-right">IVA (19%)</td>
+                  <td>{{ purchaseDetail.totalNeto * 0.19 | currency:'CLP' }}</td>
+                </tr>
+                <tr class="font-weight-bold">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="text-right">Total</td>
+                  <td>{{ purchaseDetail.totalNeto * 1.19 | currency:'CLP' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

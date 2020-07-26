@@ -14,6 +14,7 @@ export class ProductCategoryController {
       .addSelect('COUNT(p.id)', 'productos')
       .where('c.activo = 1')
       .groupBy('c.id')
+      .orderBy('c.id', 'DESC')
       .getRawMany();
 
     fetched.forEach(element => {

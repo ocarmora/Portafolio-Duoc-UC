@@ -1,6 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
 import { Usuario } from "./Usuario";
 import { TipoDocumento } from "./TipoDocumento";
+import { DetalleDocumento } from "./DetalleDocumento";
 
 @Entity()
 export class Documento {
@@ -22,6 +23,9 @@ export class Documento {
 
     @ManyToOne(type => Usuario, Usuario => Usuario.id, {nullable: true})
     cliente: Usuario;
+
+    @OneToMany(type => DetalleDocumento, detalleDocumento => detalleDocumento.documento)
+    productos: DetalleDocumento[];
 
     @Column({
       default: 1

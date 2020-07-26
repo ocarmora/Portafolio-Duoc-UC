@@ -29,6 +29,7 @@ export class InventoryController {
       .leftJoinAndSelect('usuario', 'pr', 'p.proveedorId = pr.id')
       .where('p.activo = 1')
       .groupBy('p.id')
+      .orderBy('p.id', 'DESC')
       .getRawMany();
 
     resultFetched.forEach(element => {
@@ -171,7 +172,7 @@ export class InventoryController {
       .addSelect('SUM(dp.stock)', 'stock')
       .leftJoin('p.detalleProducto', 'dp')
       .groupBy('p.id')
-      .having('stock < p.stockCritico')
+      .having('stock <= p.stockCritico')
       .getRawMany();
 
       let obj = {

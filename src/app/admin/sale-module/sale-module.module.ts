@@ -13,10 +13,13 @@ import { InputMaskModule } from 'primeng/inputmask';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
 
+import {CalendarModule} from 'primeng/calendar';
+import { SaleDetailComponent } from './components/sale-detail/sale-detail.component';
+
 
 
 @NgModule({
-  declarations: [SaleModuleComponent, SaleListComponent, SaleFormComponent, SaleCreateComponent],
+  declarations: [SaleModuleComponent, SaleListComponent, SaleFormComponent, SaleCreateComponent, SaleDetailComponent],
   imports: [
     CommonModule,
     SaleModuleRoutingModule,
@@ -26,7 +29,8 @@ import { TableModule } from 'primeng/table';
     DropdownModule,
     InputMaskModule,
     AutoCompleteModule,
-    TableModule
+    TableModule,
+    CalendarModule
   ]
 })
 export class SaleModuleModule { }

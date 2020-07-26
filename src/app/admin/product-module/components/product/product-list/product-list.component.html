@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="currentUser.tipoUsuario.id !== 3">
       <button class="btn btn-primary float-right" role="button" [routerLink]="['crear']"><i class="pi pi-plus"></i> Nuevo producto</button>
     </div>
 
@@ -45,7 +45,7 @@
               <th pResizableColumn>Categoría</th>
               <th pResizableColumn>Stock crítico</th>
               <th pResizableColumn>Precio neto</th>
-              <th pResizableColumn>Administrar</th>
+              <th pResizableColumn *ngIf="currentUser.tipoUsuario.id !== 3">Administrar</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
@@ -55,7 +55,7 @@
             <td>{{product.categoriaProducto.categoria | titlecase}}</td>
             <td>{{product.stockCritico}}</td>
             <td>{{product.precioNeto | currency:'CLP':'$' }}</td>
-            <td>
+            <td *ngIf="currentUser.tipoUsuario.id !== 3">
               <button type="button" class="btn btn-outline-secondary btn-circle m-1" [routerLink]="['editar/' + product.id]"><i class="pi pi-pencil"></i></button>
               <button type="button" class="btn btn-outline-danger btn-circle m-1" (click)="confirmDelete(product.id)"><i class="pi pi-trash"></i></button>
             </td>

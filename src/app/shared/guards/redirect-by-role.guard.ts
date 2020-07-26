@@ -19,11 +19,23 @@ export class RedirectByRoleGuard implements CanActivate {
     return this._authService.getCurrentUser(token).toPromise().then((result: any) => {
       const userRole = result.tipoUsuario.id;
       switch(userRole){
-        case UserType.Admin || UserType.Empleado || UserType.Vendedor:
+        case UserType.Admin:
           this._router.navigate(['/admin']);
           return true;
           break;
-        case UserType.Cliente || UserType.Empresa:
+        case UserType.Empleado:
+          this._router.navigate(['/admin']);
+          return true;
+          break;
+        case UserType.Vendedor:
+          this._router.navigate(['/admin']);
+          return true;
+          break;
+        case UserType.Cliente:
+          this._router.navigate(['/clientes']);
+          return true;
+          break;
+        case UserType.Empresa:
           this._router.navigate(['/clientes']);
           return true;
           break;
