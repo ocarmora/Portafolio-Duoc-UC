@@ -20,7 +20,7 @@ Desarrollamos una web app orientada como una solución a un caso ficticio para u
 
 La solución fue desarrollada con Angular y con una API construida con Node JS.
 
-## Instrucciones de prueba
+## Instrucciones para instalación y uso
 
 1. Clonar este repositorio en una ubicación local.
 2. Correr el comando __*npm install*__ dentro de la ubicación raíz del proyecto para instalar los paquetes asociados a Angular, y luego repetir la acción dentro de la ubicación __*/backend/*__ para instalar los paquetes asociados al NodeJs y TypeOrm.
