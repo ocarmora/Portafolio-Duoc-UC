@@ -28,5 +28,8 @@ La solución fue desarrollada con Angular y con una API construida con Node JS.
 4. Renombrar el mismo archivo */backend/.ormconfig.json.example* del punto 2 a */backend/.ormconfig.json* (sin "example").
 5. En la terminal correr el comando *ng serve* dentro de la carpeta raíz del proyecto y, de manera paralela, correr el comando *npm run dev* dentro de la ubicación */backend/*
 6. Abrir con un navegador la ubicación del servidor levantado por angular, normalmente en *http://localhost:4200/*
+7. Para ingresar al sistema, se creó un usuario administrador con los siguientes datos: 
+- Nombre de usuario: admin
+- Contraseña: secret
 
 
