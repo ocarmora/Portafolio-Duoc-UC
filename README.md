@@ -26,11 +26,13 @@ La solución fue desarrollada con Angular y con una API construida con Node JS.
 2. Correr el comando __*npm install*__ dentro de la ubicación raíz del proyecto para instalar los paquetes asociados a Angular, y luego repetir la acción dentro de la ubicación __*/backend/*__ para instalar los paquetes asociados al NodeJs y TypeOrm.
 3. Crear una base de datos local y configurar los parámetros de conexión en el archivo __*/backend/ormconfig.json.example*__.
 4. Renombrar el mismo archivo __*/backend/ormconfig.json.example*__ del punto 2 a __*/backend/ormconfig.json*__ (sin "example").
-5. En la terminal correr el comando __*ng serve*__ dentro de la carpeta raíz del proyecto y, de manera paralela, correr el comando __*npm run dev*__ dentro de la ubicación __*/backend/*__
-6. Abrir con un navegador la ubicación del servidor levantado por Angular, normalmente en __*http://localhost:4200/*__
-7. Para ingresar al sistema, se creó un usuario administrador con los siguientes datos: 
+5. Dentro del archivo __*/backend/.env.example*__ debes asignar un valor a la variable **TOKEN_SECRET_KEY**, normalmente es un string de 256 bits. Puedes generar uno acá: https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
+6. Renombrar el archivo __*/backend/.env.example*__ a __*/backend/.env*__ (sin "example").
+7. En la terminal correr el comando __*ng serve*__ dentro de la carpeta raíz del proyecto y, de manera paralela, correr el comando __*npm run dev*__ dentro de la ubicación __*/backend/*__
+8. Abrir con un navegador la ubicación del servidor levantado por Angular, normalmente en __*http://localhost:4200/*__
+9. Para ingresar al sistema, se creó un usuario administrador con los siguientes datos: 
 - Nombre de usuario: admin
 - Contraseña: secret
-8. En caso de dudas, reclamos o comentarios escríbeme un mail a os.carvajalmora@gmail.com :) 
+10. En caso de dudas, reclamos o comentarios escríbeme un mail a os.carvajalmora@gmail.com :) 
 
 
