@@ -31,5 +31,6 @@ La solución fue desarrollada con Angular y con una API construida con Node JS.
 7. Para ingresar al sistema, se creó un usuario administrador con los siguientes datos: 
 - Nombre de usuario: admin
 - Contraseña: secret
+8. En caso de dudas, reclamos o comentarios escríbeme un mail a os.carvajalmora@gmail.com :) 
 
 
