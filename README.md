@@ -18,7 +18,11 @@ Desarrollamos una web app orientada como una solución a un caso ficticio para u
 - Stock de productos
 - Categorización de productos
 
-La solución fue desarrollada con Angular y con una API construida con Node JS.
+La solución fue desarrollada con Angular en el frontend, NodeJs como backend (API RESTful) y TypeORM como ORM de la base de datos.
+
+## Requisitos para la instalación
+1. Tener instalado Angular CLI. Puedes ver las instrucciones [aquí](https://cli.angular.io/)
+2. Tener instalado Node (y el administrador de paquetes NPM). Puedes ver las instrucciones [aquí](https://nodejs.org/en/download/)
 
 ## Instrucciones para instalación y uso
 
