@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import {createConnection, getRepository} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import {Request, Response} from "express";
@@ -7,8 +7,12 @@ import {Routes} from "./routes";
 import * as cors from "cors";
 import * as morgan from "morgan";
 import CheckAuth from "./middleware/CheckAuth";
+import {Usuario} from "./entity/Usuario";
+import {TipoUsuario} from "./entity/TipoUsuario";
+import * as bcrypt from "bcrypt";
 
 createConnection().then(async connection => {
+
 
   // create express app
   const app = express();
@@ -29,6 +33,37 @@ createConnection().then(async connection => {
           }
       });
   });
+
+
+  // create super admin role and admin user for the first login
+  await getRepository(TipoUsuario).findOne(1).then(async result => {
+      if(!result){
+
+            // create admin role
+            const role = await getRepository(TipoUsuario).save({
+                tipo: 'admin',
+                activo: 1
+            });
+
+            // create admin user
+            const adminUser = {
+                rut: 'admin',
+                password: await bcrypt.hash('secret', 12).then(result => result),
+                tipoUsuario: role,
+                activo: 1,
+                detalle: {
+                    nombre: 'Super',
+                    segundoNombre: 'Admin',
+                    apellido: 'User',
+                    segundoApellido: 'Role',
+                    email: 'mail@example.com',
+                    telefono: '+569823792031'
+                }
+            }
+
+            await getRepository(Usuario).save(adminUser);
+      }
+  })
 
   // start express server
   app.listen(3000);

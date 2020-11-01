@@ -1,27 +1,32 @@
 # NewFerme
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.2.
+Este proyecto fue generado por [Angular CLI](https://github.com/angular/angular-cli) version 9.1.2.
 
-## Development server
+## Portafolio Duoc UC
+Este proyecto corresponde presentado en el portafolio de la carrera Analista Programador en Duoc UC, sede Maipú, año 2020.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Sobre el proyecto
+Desarrollamos una web app orientada como una solución a un caso ficticio para una ferreteria que necesitaba un software para llevar el control de: 
 
-## Code scaffolding
+- Ventas
+- Usuarios del sistema
+- Trabajadores
+- Clientes
+- Proveedores
+- Ordenes de compra
+- Facturas y boletas
+- Stock de productos
+- Categorización de productos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+La solución fue desarrollada con Angular y con una API construida con Node JS.
 
-## Build
+## Instrucciones de prueba
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+1. Clonar este repositorio en una ubicación local.
+2. Correr el comando *npm install* dentro de la ubicación raíz del proyecto para instalar los paquetes asociados a Angular, y luego repetir la acción dentro de la ubicación */backend/* para instalar los paquetes asociados al Node y TypeOrm.
+3. Crear una base de datos local y configurar los parámetros de conexión en el archivo */backend/.ormconfig.json.example*.
+4. Renombrar el mismo archivo */backend/.ormconfig.json.example* del punto 2 a */backend/.ormconfig.json* (sin "example").
+5. En la terminal correr el comando *ng serve* dentro de la carpeta raíz del proyecto y, de manera paralela, correr el comando *npm run dev* dentro de la ubicación */backend/*
+6. Abrir con un navegador la ubicación del servidor levantado por angular, normalmente en *http://localhost:4200/*
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
