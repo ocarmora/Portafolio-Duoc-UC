@@ -3,7 +3,7 @@
 Este proyecto fue generado por [Angular CLI](https://github.com/angular/angular-cli) version 9.1.2.
 
 ## Portafolio Duoc UC
-Este proyecto corresponde presentado en el portafolio de la carrera Analista Programador en Duoc UC, sede Maipú, año 2020.
+Este proyecto corresponde al presentado en el portafolio de la carrera Analista Programador en Duoc UC, sede Maipú, año 2020.
 
 ## Sobre el proyecto
 Desarrollamos una web app orientada como una solución a un caso ficticio para una ferreteria que necesitaba un software para llevar el control de: 
