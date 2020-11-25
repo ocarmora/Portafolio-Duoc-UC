@@ -37,6 +37,8 @@ La solución fue desarrollada con Angular en el frontend, NodeJs como backend (A
 9. Para ingresar al sistema, se creó un usuario administrador con los siguientes datos: 
 - Nombre de usuario: admin
 - Contraseña: secret
-10. En caso de dudas, reclamos o comentarios escríbeme un mail a os.carvajalmora@gmail.com :) 
+
+## ¿Dudas o comentarios?
+Puedes escríbeme de manera directa a [os.carvajalmora@gmail.com](mailto:os.carvajalmora@gmail.com)
 
 
